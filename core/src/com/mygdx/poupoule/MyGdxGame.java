@@ -77,7 +77,7 @@ public class MyGdxGame extends ApplicationAdapter {
         renderRatio = (float) (width) / (float) height;
         camera.setToOrtho(false, 16 * (renderRatio), 16);
 
-        inputProcessor = new MyInputProcessor(camera, villageMap, playerCoord, renderer);
+        inputProcessor = new MyInputProcessor(camera, currentMap, playerCoord, renderer);
         Gdx.input.setInputProcessor(inputProcessor);
     }
 
@@ -88,6 +88,11 @@ public class MyGdxGame extends ApplicationAdapter {
             playerCoord.x = 12;
             playerCoord.y = 2;
             currentMap = guildMap;
+            camera = new OrthographicCamera();
+            camera.setToOrtho(false, 16 * (renderRatio), 16);
+            renderer.setView(camera);
+            inputProcessor = new MyInputProcessor(camera, currentMap, playerCoord, renderer);
+            Gdx.input.setInputProcessor(inputProcessor);
         }
     }
 }
