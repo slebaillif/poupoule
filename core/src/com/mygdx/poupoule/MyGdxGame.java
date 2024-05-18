@@ -39,7 +39,7 @@ public class MyGdxGame extends ApplicationAdapter {
     MyInputProcessor inputProcessor;
     Stage dialogStage;
 
-    CurrentSceneType currentStageType = CurrentSceneType.Dialog;
+    CurrentSceneType currentStageType = CurrentSceneType.TiledMap;
 
     @Override
     public void create() {
@@ -58,8 +58,6 @@ public class MyGdxGame extends ApplicationAdapter {
         princessSprite = new Sprite(princess);
 
         createDialogStage();
-
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("SKIN//uiskin.atlas"));
 
     }
 
@@ -159,6 +157,13 @@ public class MyGdxGame extends ApplicationAdapter {
             renderer.setView(camera);
             inputProcessor = new MyInputProcessor(camera, currentMap, playerCoord, renderer);
             Gdx.input.setInputProcessor(inputProcessor);
+        }
+
+        if (currentMap == guildMap &&
+                playerCoord.x == 15 &&
+                playerCoord.y == 13) {
+            // enter bob dialog
+            currentStageType = CurrentSceneType.Dialog;
         }
     }
 }
