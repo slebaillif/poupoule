@@ -3,20 +3,20 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "village.tmx",
+    "activeFile": "guild.tmx",
     "expandedProjectPaths": [
         "."
     ],
     "fileStates": {
         "PixelPackTOPDOWN8BIT.tsx": {
-            "scaleInDock": 1.5,
+            "scaleInDock": 3,
             "scaleInEditor": 1
         },
         "guild.tmx": {
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 238,
+                "x": 329.25,
                 "y": 135.75
             }
         },
@@ -24,8 +24,8 @@
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 142.5,
-                "y": 165.75
+                "x": 239.75,
+                "y": 159.75
             }
         }
     },
@@ -34,12 +34,14 @@
     "map.tileWidth": 16,
     "openFiles": [
         "village.tmx",
-        "PixelPackTOPDOWN8BIT.tsx"
+        "PixelPackTOPDOWN8BIT.tsx",
+        "guild.tmx"
     ],
     "project": "poupoule-L1.tiled-project",
-    "property.type": "bool",
+    "property.type": "string",
     "recentFiles": [
+        "village.tmx",
         "PixelPackTOPDOWN8BIT.tsx",
-        "village.tmx"
+        "guild.tmx"
     ]
 }
