@@ -15,35 +15,33 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.mygdx.poupoule.dialog.BobDialog;
+import com.mygdx.poupoule.dialog.DialogInputProcessor;
 
 import java.util.List;
 
 public class MyGdxGame extends ApplicationAdapter {
-    SpriteBatch batch;
-    Texture img;
-    TextureRegion firstRegion;
-    TextureRegion[] green = new TextureRegion[9];
-    List<TextureRegion> theMap;
-    TiledMap currentMap;
+
+    public TiledMap currentMap;
     TiledMap villageMap;
     TiledMap guildMap;
     float unitScale = 1 / 16f;
     float renderRatio;
-    OrthogonalTiledMapRenderer renderer;
-    OrthographicCamera camera;
-    PlayerCoord playerCoord = new PlayerCoord(13, 15);
+    public OrthogonalTiledMapRenderer renderer;
+    public OrthographicCamera camera;
+    public PlayerCoord playerCoord = new PlayerCoord(13, 15);
     Texture princess;
     Texture bobPortrait;
     Sprite princessSprite;
     Sprite bobSprite;
-    MyInputProcessor inputProcessor;
+    public TiledMapInputProcessor inputProcessor;
     Stage dialogStage;
+    BobDialog bobDialog = new BobDialog();
 
-    CurrentSceneType currentStageType = CurrentSceneType.TiledMap;
+    public CurrentSceneType currentStageType = CurrentSceneType.TiledMap;
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
 
         villageMap = new TmxMapLoader().load("TILESET\\village.tmx");
         guildMap = new TmxMapLoader().load("TILESET\\guild.tmx");
@@ -67,14 +65,16 @@ public class MyGdxGame extends ApplicationAdapter {
         skin.addRegions(atlas);
         skin.load(Gdx.files.internal("SKIN\\uiskin.json"));
         Label nameLabel = new Label("Bob, interim's Guild Master", skin);
+        Label dialogLine = new Label(bobDialog.getCurrentDialog(), skin);
+
         dialogStage = new Stage();
         Table table = new Table();
         table.top().left();
         table.add(new Image(bobPortrait)).maxWidth(200).maxHeight(200).left();
+        table.add(dialogLine).left();
         table.row();
         table.add(nameLabel).left();
-//        table.add(new Image(bobPortrait));
-//        table.addActor(new TextArea("this is  test", TextField.TextFieldStyle));
+
 
         table.setFillParent(true);
 
@@ -103,6 +103,9 @@ public class MyGdxGame extends ApplicationAdapter {
         }
 
         if (currentStageType == CurrentSceneType.Dialog) {
+            DialogInputProcessor dialogInputProcessor = new DialogInputProcessor(bobDialog, this);
+            Gdx.input.setInputProcessor(dialogInputProcessor);
+            createDialogStage();
             dialogStage.act(Gdx.graphics.getDeltaTime());
             dialogStage.draw();
         }
@@ -110,8 +113,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
     @Override
     public void dispose() {
-        batch.dispose();
-        img.dispose();
+
     }
 
     @Override
@@ -121,7 +123,7 @@ public class MyGdxGame extends ApplicationAdapter {
             renderRatio = (float) (width) / (float) height;
             camera.setToOrtho(false, 16 * (renderRatio), 16);
 
-            inputProcessor = new MyInputProcessor(camera, currentMap, playerCoord, renderer);
+            inputProcessor = new TiledMapInputProcessor(camera, currentMap, playerCoord, renderer);
             Gdx.input.setInputProcessor(inputProcessor);
         } else if (currentStageType == CurrentSceneType.Dialog) {
             dialogStage.getViewport().update(width, height, true);
@@ -140,7 +142,7 @@ public class MyGdxGame extends ApplicationAdapter {
             camera = new OrthographicCamera();
             camera.setToOrtho(false, 16 * (renderRatio), 16);
             renderer.setView(camera);
-            inputProcessor = new MyInputProcessor(camera, currentMap, playerCoord, renderer);
+            inputProcessor = new TiledMapInputProcessor(camera, currentMap, playerCoord, renderer);
             Gdx.input.setInputProcessor(inputProcessor);
         }
 
@@ -155,7 +157,7 @@ public class MyGdxGame extends ApplicationAdapter {
             camera = new OrthographicCamera();
             camera.setToOrtho(false, 16 * (renderRatio), 16);
             renderer.setView(camera);
-            inputProcessor = new MyInputProcessor(camera, currentMap, playerCoord, renderer);
+            inputProcessor = new TiledMapInputProcessor(camera, currentMap, playerCoord, renderer);
             Gdx.input.setInputProcessor(inputProcessor);
         }
 

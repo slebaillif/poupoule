@@ -8,14 +8,14 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 import static com.badlogic.gdx.Input.Keys.*;
 
-public class MyInputProcessor implements InputProcessor {
+public class TiledMapInputProcessor implements InputProcessor {
     private final Camera camera;
     private final TiledMap theMap;
     private final PlayerCoord playerCoord;
     OrthogonalTiledMapRenderer renderer;
 
 
-    public MyInputProcessor(Camera camera, TiledMap theMap, PlayerCoord coord, OrthogonalTiledMapRenderer renderer) {
+    public TiledMapInputProcessor(Camera camera, TiledMap theMap, PlayerCoord coord, OrthogonalTiledMapRenderer renderer) {
         this.camera = camera;
         this.theMap = theMap;
         this.playerCoord = coord;
