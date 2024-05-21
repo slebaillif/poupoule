@@ -6,8 +6,7 @@ import com.mygdx.poupoule.CurrentSceneType;
 import com.mygdx.poupoule.MyGdxGame;
 import com.mygdx.poupoule.TiledMapInputProcessor;
 
-import static com.badlogic.gdx.Input.Keys.ESCAPE;
-import static com.badlogic.gdx.Input.Keys.SPACE;
+import static com.badlogic.gdx.Input.Keys.*;
 
 public class DialogInputProcessor implements InputProcessor {
     GameDialog currentDialog;
@@ -28,6 +27,10 @@ public class DialogInputProcessor implements InputProcessor {
             theGame.inputProcessor = new TiledMapInputProcessor(theGame.camera, theGame.currentMap, theGame.playerCoord, theGame.renderer);
             Gdx.input.setInputProcessor(theGame.inputProcessor);
             theGame.currentStageType = CurrentSceneType.TiledMap;
+            return true;
+        } else if (keycode == NUM_1) {
+            String newDialog = currentDialog.getPlayerOptions().get(0).resultDialogName;
+            currentDialog.setCurrentDialog(newDialog);
             return true;
         } else {
             return false;

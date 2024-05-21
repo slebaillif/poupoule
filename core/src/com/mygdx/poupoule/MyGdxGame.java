@@ -5,22 +5,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.poupoule.dialog.BobDialog;
 import com.mygdx.poupoule.dialog.DialogInputProcessor;
-
-import java.util.List;
+import com.mygdx.poupoule.dialog.PlayerResponseResult;
 
 public class MyGdxGame extends ApplicationAdapter {
 
@@ -41,7 +40,7 @@ public class MyGdxGame extends ApplicationAdapter {
     BobDialog bobDialog = new BobDialog();
     FitViewport dialogViewport;
 
-    public CurrentSceneType currentStageType = CurrentSceneType.TiledMap;
+    public CurrentSceneType currentStageType = CurrentSceneType.Dialog;
 
     @Override
     public void create() {
@@ -70,6 +69,7 @@ public class MyGdxGame extends ApplicationAdapter {
         Label nameLabel = new Label("Bob, interim's Guild Master", skin);
         Label dialogLine = new Label(bobDialog.getCurrentDialog(), skin);
 
+
         dialogViewport = new FitViewport(800, 600);
         dialogStage = new Stage(dialogViewport);
         Table table = new Table();
@@ -78,6 +78,14 @@ public class MyGdxGame extends ApplicationAdapter {
         table.add(dialogLine).left();
         table.row();
         table.add(nameLabel).left();
+        if (bobDialog.getCurrentDialog().equals("END")) {
+            for (PlayerResponseResult response : bobDialog.getPlayerOptions()) {
+                Label op = new Label(response.getPlayerResponse(), skin);
+                table.row();
+                table.add(op).center();
+
+            }
+        }
 
 
         table.setFillParent(true);
