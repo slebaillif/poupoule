@@ -15,6 +15,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.poupoule.dialog.BobDialog;
 import com.mygdx.poupoule.dialog.DialogInputProcessor;
 
@@ -37,6 +39,7 @@ public class MyGdxGame extends ApplicationAdapter {
     public TiledMapInputProcessor inputProcessor;
     Stage dialogStage;
     BobDialog bobDialog = new BobDialog();
+    FitViewport dialogViewport;
 
     public CurrentSceneType currentStageType = CurrentSceneType.TiledMap;
 
@@ -67,7 +70,8 @@ public class MyGdxGame extends ApplicationAdapter {
         Label nameLabel = new Label("Bob, interim's Guild Master", skin);
         Label dialogLine = new Label(bobDialog.getCurrentDialog(), skin);
 
-        dialogStage = new Stage();
+        dialogViewport = new FitViewport(800, 600);
+        dialogStage = new Stage(dialogViewport);
         Table table = new Table();
         table.top().left();
         table.add(new Image(bobPortrait)).maxWidth(200).maxHeight(200).left();
