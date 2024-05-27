@@ -23,28 +23,33 @@ public class BobDialog implements GameDialog {
 
         playerResponseLines.put("firstMeeting",
                 asList(
-                        new PlayerResponseResult("1 - So grumpy, so young.", "watchIt"),
-                        new PlayerResponseResult("2 - Can we skip to the part where you give us a mission?", "notInGuild")));
+                        new PlayerResponseResult("So grumpy, so young.", "watchIt"),
+                        new PlayerResponseResult("Can we skip to the part where you give us a mission?", "notInGuild")));
 
         dialogLines.put("watchIt", asList("Hey, watch your mouth!"));
-        playerResponseLines.put("watchIt", asList(new PlayerResponseResult("2 - Can we skip to the part where you give us a mission?", "notInGuild")));
+        playerResponseLines.put("watchIt", asList(new PlayerResponseResult("Can we skip to the part where you give us a mission?", "notInGuild")));
 
-        dialogLines.put("notInGuild", asList("You're not registerd with the Guild, so I can't give you any mission, you see."));
-        playerResponseLines.put("notInGuild", asList(new PlayerResponseResult("1 - How can we register ?", "notInGuild")));
+        dialogLines.put("notInGuild", asList("You're not registered with the Guild, \nso I can't give you any mission, you see."));
+        playerResponseLines.put("notInGuild", asList(new PlayerResponseResult("How can we register ?", "register")));
+
+        dialogLines.put("register", asList("Just kill 10 rats and \nbring me their entrails."));
+        playerResponseLines.put("register", asList(new PlayerResponseResult("I\'m really looking forward to it.", "end")));
     }
 
     @Override
-    public String getCurrentDialog() {
-        if (lineIndex > dialogLines.get(currentDialog).size() - 1) {
-            return "END";
-        } else {
-            return dialogLines.get(currentDialog).get(lineIndex);
-        }
+    public DialogLine getCurrentDialog() {
+        boolean endOfLine = lineIndex == dialogLines.get(currentDialog).size() - 1;
+        boolean endOfDialog = getPlayerOptions().get(0).resultDialogName.equalsIgnoreCase("end");
+        return new DialogLine(dialogLines.get(currentDialog).get(lineIndex), endOfLine, endOfDialog);
+
     }
 
     @Override
     public void moveToNextLine() {
-        lineIndex++;
+        if (lineIndex == dialogLines.get(currentDialog).size() - 1) {
+        } else {
+            lineIndex++;
+        }
     }
 
     @Override

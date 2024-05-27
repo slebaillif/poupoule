@@ -2,7 +2,9 @@ package com.mygdx.poupoule;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -11,10 +13,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.poupoule.dialog.BobDialog;
@@ -36,11 +36,11 @@ public class MyGdxGame extends ApplicationAdapter {
     Sprite princessSprite;
     Sprite bobSprite;
     public TiledMapInputProcessor inputProcessor;
-    Stage dialogStage;
+    public Stage dialogStage;
     BobDialog bobDialog = new BobDialog();
-    FitViewport dialogViewport;
+    public FitViewport dialogViewport;
 
-    public CurrentSceneType currentStageType = CurrentSceneType.Dialog;
+    public CurrentSceneType currentStageType = CurrentSceneType.TiledMap;
 
     @Override
     public void create() {
@@ -67,32 +67,55 @@ public class MyGdxGame extends ApplicationAdapter {
         skin.addRegions(atlas);
         skin.load(Gdx.files.internal("SKIN\\uiskin.json"));
         Label nameLabel = new Label("Bob, interim's Guild Master", skin);
-        Label dialogLine = new Label(bobDialog.getCurrentDialog(), skin);
+        Label dialogLine = new Label(bobDialog.getCurrentDialog().getLine(), skin);
+        Label emptyLine = new Label("", skin);
 
 
         dialogViewport = new FitViewport(800, 600);
         dialogStage = new Stage(dialogViewport);
-        Table table = new Table();
-        table.top().left();
-        table.add(new Image(bobPortrait)).maxWidth(200).maxHeight(200).left();
-        table.add(dialogLine).left();
-        table.row();
-        table.add(nameLabel).left();
-        if (bobDialog.getCurrentDialog().equals("END")) {
-            for (PlayerResponseResult response : bobDialog.getPlayerOptions()) {
-                Label op = new Label(response.getPlayerResponse(), skin);
-                table.row();
-                table.add(op).center();
 
+        Pixmap pixmap = new Pixmap(64, 64, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.LIGHT_GRAY);
+        pixmap.drawRectangle(0, 0, 64, 64);
+        TextureRegionDrawable borderTexture = new TextureRegionDrawable(new Texture(pixmap));
+        pixmap.dispose();
+
+        Table table = new Table();
+//        table.setBackground(borderTexture);
+        table.top().left();
+        table.add(new Image(bobPortrait)).maxWidth(300).maxHeight(300).left();
+            table.add(dialogLine).left().expandX().center();
+        table.row();
+        table.add(nameLabel).center();
+
+        table.row();
+
+        Table table2 = new Table();
+        table2.bottom().left().padBottom(150f);
+        table2.setBackground(borderTexture);
+        if (bobDialog.getCurrentDialog().isEndOfLine()) {
+            int i = 1;
+            for (PlayerResponseResult response : bobDialog.getPlayerOptions()) {
+                Label op = new Label(i + " - " + response.getPlayerResponse(), skin);
+                table2.row();
+                table2.add(emptyLine).width(300f);
+                table2.add(op).expandX().center();
+                i++;
             }
+        } else {
+            Label op = new Label("(Press space bar)", skin);
+            table2.row();
+            table2.add(emptyLine).width(300f);
+            table2.add(op).expandX().center();
         }
 
+        Stack stack = new Stack(table, table2);
+        stack.setFillParent(true);
 
-        table.setFillParent(true);
+        dialogStage.addActor(stack);
 
-        dialogStage.addActor(table);
-
-        table.setDebug(true);
+//        table.setDebug(true);
+        table2.setDebug(true);
     }
 
     @Override

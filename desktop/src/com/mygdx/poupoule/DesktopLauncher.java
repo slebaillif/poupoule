@@ -1,5 +1,6 @@
 package com.mygdx.poupoule;
 
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.mygdx.poupoule.MyGdxGame;
@@ -8,8 +9,12 @@ import com.mygdx.poupoule.MyGdxGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setForegroundFPS(60);
+		config.setForegroundFPS(10);
+//		Graphics.DisplayMode displayMode = Graphics.DisplayMode(640, 480,5,16);
+//		config.setFullscreenMode(displayMode);
 		config.setTitle("Poupoule");
+		config.setMaximized(true);
+
 		new Lwjgl3Application(new MyGdxGame(), config);
 	}
 }

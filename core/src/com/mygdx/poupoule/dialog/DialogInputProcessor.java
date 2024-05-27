@@ -23,18 +23,47 @@ public class DialogInputProcessor implements InputProcessor {
             currentDialog.moveToNextLine();
             return true;
         } else if (keycode == ESCAPE) {
-            theGame.playerCoord = currentDialog.getExitCoord();
-            theGame.inputProcessor = new TiledMapInputProcessor(theGame.camera, theGame.currentMap, theGame.playerCoord, theGame.renderer);
-            Gdx.input.setInputProcessor(theGame.inputProcessor);
-            theGame.currentStageType = CurrentSceneType.TiledMap;
+            exitToMap();
             return true;
         } else if (keycode == NUM_1) {
-            String newDialog = currentDialog.getPlayerOptions().get(0).resultDialogName;
-            currentDialog.setCurrentDialog(newDialog);
+            selectPlayerResponse(1);
+            return true;
+        } else if (keycode == NUM_2) {
+            selectPlayerResponse(2);
+            return true;
+        } else if (keycode == NUM_3) {
+            selectPlayerResponse(3);
+            return true;
+        } else if (keycode == NUM_4) {
+            selectPlayerResponse(4);
+            return true;
+        } else if (keycode == NUM_5) {
+            selectPlayerResponse(5);
             return true;
         } else {
             return false;
         }
+    }
+
+    private void exitToMap() {
+        theGame.playerCoord = currentDialog.getExitCoord();
+        theGame.inputProcessor = new TiledMapInputProcessor(theGame.camera, theGame.currentMap, theGame.playerCoord, theGame.renderer);
+        Gdx.input.setInputProcessor(theGame.inputProcessor);
+        theGame.currentStageType = CurrentSceneType.TiledMap;
+    }
+
+    private void selectPlayerResponse(int lineSelected) {
+        if (lineSelected > 0 && currentDialog.getPlayerOptions().size() >= lineSelected) {
+            if (currentDialog.getPlayerOptions().get(lineSelected - 1).resultDialogName.equalsIgnoreCase("end")){
+                exitToMap();
+            }else {
+                String newDialog = currentDialog.getPlayerOptions().get(lineSelected - 1).resultDialogName;
+                currentDialog.setCurrentDialog(newDialog);
+            }
+        } else {
+            // do nothing
+        }
+
     }
 
     @Override

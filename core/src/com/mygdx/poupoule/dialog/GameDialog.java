@@ -5,7 +5,7 @@ import com.mygdx.poupoule.PlayerCoord;
 import java.util.List;
 
 public interface GameDialog {
-    public String getCurrentDialog();
+    public DialogLine getCurrentDialog();
 
     public void moveToNextLine();
 
