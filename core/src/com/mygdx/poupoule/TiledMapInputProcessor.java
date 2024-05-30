@@ -23,8 +23,7 @@ public class TiledMapInputProcessor implements InputProcessor {
     }
 
     public boolean keyDown(int keycode) {
-        TiledMapTileLayer collisionLayer = (TiledMapTileLayer) theMap.getLayers().get(1);
-        collisionLayer.getName();
+        TiledMapTileLayer collisionLayer = (TiledMapTileLayer) theMap.getLayers().get("collision");
         if (keycode == LEFT) {
             TiledMapTileLayer.Cell collision = collisionLayer.getCell(playerCoord.x - 1, playerCoord.y);
             if (collision == null) {

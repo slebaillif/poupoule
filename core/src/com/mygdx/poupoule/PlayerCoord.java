@@ -4,6 +4,9 @@ public class PlayerCoord {
     int x;
     int y;
 
+    public PlayerCoord() {
+    }
+
     public PlayerCoord(int x, int y) {
         this.x = x;
         this.y = y;

@@ -11,6 +11,7 @@ repositories {
 }
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    api "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.4"
 }
 kotlin {
     jvmToolchain(8)

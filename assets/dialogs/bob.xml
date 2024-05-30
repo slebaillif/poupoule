@@ -1,0 +1,74 @@
+<DialogData npc="Bob">
+    <npc>
+        Bob
+    </npc>
+    <startingPoint>firstMeeting</startingPoint>
+    <exit>
+        <x>15</x>
+        <y>12</y>
+    </exit>
+    <exchanges>
+        <exchange>
+            <name>firstMeeting</name>
+            <npcSpeech>
+                <line>"Hi" there, my name is Bob."</line>
+                <line>"I run this place, for now."</line>
+                <line>
+"If you expect me to be all sunshine and rainbows,
+you’re very wrong noobs."
+                </line>
+                <line>"Plus it’s Monday morning."</line>
+            </npcSpeech>
+            <playerResponses>
+                <response>
+                    <line>"So grumpy, so young."</line>
+                    <nextExchange>watchIt</nextExchange>
+                </response>
+                <response>
+                    <line>"Can we skip to the part where you give us a mission?"</line>
+                    <nextExchange>notInGuild</nextExchange>
+                </response>
+            </playerResponses>
+        </exchange>
+        <exchange>
+            <name>watchIt</name>
+            <npcSpeech>
+                <line>"Hey, watch your mouth!"</line>
+            </npcSpeech>
+            <playerResponses>
+                <response>
+                    <line>"Can we skip to the part where you give us a mission?"</line>
+                    <nextExchange>notInGuild</nextExchange>
+                </response>
+            </playerResponses>
+        </exchange>
+        <exchange>
+            <name>notInGuild</name>
+            <npcSpeech>
+                <line>
+"You're not registered with the Guild,
+so I can't give you any mission, you see."
+                </line>
+            </npcSpeech>
+            <playerResponses>
+                <response>
+                    <line>"How can we register ?"</line>
+                    <nextExchange>register</nextExchange>
+                </response>
+            </playerResponses>
+        </exchange>
+        <exchange>
+            <name>register</name>
+            <npcSpeech>
+                <line>"Just kill 10 rats and
+bring me their entrails."</line>
+            </npcSpeech>
+            <playerResponses>
+                <response>
+                    <line>"Fantastic, I'm really looking forward to it."</line>
+                    <nextExchange>end</nextExchange>
+                </response>
+            </playerResponses>
+        </exchange>
+    </exchanges>
+</DialogData>

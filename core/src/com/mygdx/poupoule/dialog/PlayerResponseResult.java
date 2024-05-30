@@ -1,19 +1,26 @@
 package com.mygdx.poupoule.dialog;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class PlayerResponseResult {
-    String playerResponse;
-    String resultDialogName;
+    @JsonProperty
+    String line;
+    @JsonProperty
+    String nextExchange;
+
+    public PlayerResponseResult() {
+    }
 
     public PlayerResponseResult(String playerResponse, String result) {
-        this.playerResponse = playerResponse;
-        this.resultDialogName = result;
+        this.line = playerResponse;
+        this.nextExchange = result;
     }
 
-    public String getPlayerResponse() {
-        return playerResponse;
+    public String getLine() {
+        return line;
     }
 
-    public String getResultDialogName() {
-        return resultDialogName;
+    public String getNextExchange() {
+        return nextExchange;
     }
 }

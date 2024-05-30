@@ -17,9 +17,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.mygdx.poupoule.dialog.BobDialog;
+import com.mygdx.poupoule.dialog.BaseDialog;
 import com.mygdx.poupoule.dialog.DialogInputProcessor;
 import com.mygdx.poupoule.dialog.PlayerResponseResult;
+
+import java.io.IOException;
 
 public class MyGdxGame extends ApplicationAdapter {
 
@@ -37,13 +39,18 @@ public class MyGdxGame extends ApplicationAdapter {
     Sprite bobSprite;
     public TiledMapInputProcessor inputProcessor;
     public Stage dialogStage;
-    BobDialog bobDialog = new BobDialog();
+    BaseDialog bobDialog;
     public FitViewport dialogViewport;
 
     public CurrentSceneType currentStageType = CurrentSceneType.TiledMap;
 
     @Override
     public void create() {
+        try {
+            bobDialog= new BaseDialog("dialogs\\bob.xml");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         villageMap = new TmxMapLoader().load("TILESET\\village.tmx");
         guildMap = new TmxMapLoader().load("TILESET\\guild.tmx");
@@ -96,7 +103,7 @@ public class MyGdxGame extends ApplicationAdapter {
         if (bobDialog.getCurrentDialog().isEndOfLine()) {
             int i = 1;
             for (PlayerResponseResult response : bobDialog.getPlayerOptions()) {
-                Label op = new Label(i + " - " + response.getPlayerResponse(), skin);
+                Label op = new Label(i + " - " + response.getLine(), skin);
                 table2.row();
                 table2.add(emptyLine).width(300f);
                 table2.add(op).expandX().center();

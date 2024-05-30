@@ -54,10 +54,10 @@ public class DialogInputProcessor implements InputProcessor {
 
     private void selectPlayerResponse(int lineSelected) {
         if (lineSelected > 0 && currentDialog.getPlayerOptions().size() >= lineSelected) {
-            if (currentDialog.getPlayerOptions().get(lineSelected - 1).resultDialogName.equalsIgnoreCase("end")){
+            if (currentDialog.getPlayerOptions().get(lineSelected - 1).nextExchange.equalsIgnoreCase("end")){
                 exitToMap();
             }else {
-                String newDialog = currentDialog.getPlayerOptions().get(lineSelected - 1).resultDialogName;
+                String newDialog = currentDialog.getPlayerOptions().get(lineSelected - 1).nextExchange;
                 currentDialog.setCurrentDialog(newDialog);
             }
         } else {

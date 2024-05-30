@@ -16,15 +16,15 @@
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 329.25,
-                "y": 135.75
+                "x": 222,
+                "y": 191.5
             }
         },
         "village.tmx": {
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 239.75,
+                "x": 253,
                 "y": 159.75
             }
         }

@@ -1,0 +1,24 @@
+package com.mygdx.poupoule.dialog;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mygdx.poupoule.PlayerCoord;
+
+import java.util.List;
+import java.util.Optional;
+
+public class DialogData {
+    @JsonProperty
+    String npc;
+    @JsonProperty
+    String startingPoint;
+    @JsonProperty
+    List<Exchange> exchanges;
+    @JsonProperty
+    PlayerCoord exit;
+
+    public Exchange getExchange(String name) {
+        Optional<Exchange> result = exchanges.stream().filter(e -> e.name.equals(name)).findFirst();
+        return result.orElse(null);
+    }
+
+}
