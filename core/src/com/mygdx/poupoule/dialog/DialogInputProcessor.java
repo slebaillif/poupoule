@@ -46,7 +46,8 @@ public class DialogInputProcessor implements InputProcessor {
     }
 
     private void exitToMap() {
-        theGame.playerCoord = currentDialog.getExitCoord();
+        theGame.playerCoord.setX(currentDialog.getExitCoord().getX());
+        theGame.playerCoord.setY(currentDialog.getExitCoord().getY());
         theGame.inputProcessor = new TiledMapInputProcessor(theGame.camera, theGame.currentMap, theGame.playerCoord, theGame.renderer);
         Gdx.input.setInputProcessor(theGame.inputProcessor);
         theGame.currentStageType = CurrentSceneType.TiledMap;
@@ -54,9 +55,9 @@ public class DialogInputProcessor implements InputProcessor {
 
     private void selectPlayerResponse(int lineSelected) {
         if (lineSelected > 0 && currentDialog.getPlayerOptions().size() >= lineSelected) {
-            if (currentDialog.getPlayerOptions().get(lineSelected - 1).nextExchange.equalsIgnoreCase("end")){
+            if (currentDialog.getPlayerOptions().get(lineSelected - 1).nextExchange.equalsIgnoreCase("end")) {
                 exitToMap();
-            }else {
+            } else {
                 String newDialog = currentDialog.getPlayerOptions().get(lineSelected - 1).nextExchange;
                 currentDialog.setCurrentDialog(newDialog);
             }
