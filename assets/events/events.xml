@@ -44,6 +44,38 @@
                 </location>
                 <location>
                     <coordinates>
+                        <x>13</x>
+                        <y>0</y>
+                    </coordinates>
+                    <eventDetails>
+                        <eventType>
+                            changeMap
+                        </eventType>
+                        <newMap>village</newMap>
+                        <coordinates>
+                            <x>15</x>
+                            <y>12</y>
+                        </coordinates>
+                    </eventDetails>
+                </location>
+                <location>
+                    <coordinates>
+                        <x>15</x>
+                        <y>0</y>
+                    </coordinates>
+                    <eventDetails>
+                        <eventType>
+                            changeMap
+                        </eventType>
+                        <newMap>village</newMap>
+                        <coordinates>
+                            <x>15</x>
+                            <y>12</y>
+                        </coordinates>
+                    </eventDetails>
+                </location>
+                <location>
+                    <coordinates>
                         <x>15</x>
                         <y>13</y>
                     </coordinates>
