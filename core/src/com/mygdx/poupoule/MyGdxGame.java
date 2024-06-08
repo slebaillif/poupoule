@@ -40,16 +40,19 @@ public class MyGdxGame extends ApplicationAdapter {
     public PlayerCoord playerCoord = new PlayerCoord(13, 15);
     Texture princess;
     Texture bobPortrait;
+    Texture rat;
     Sprite princessSprite;
     Sprite bobSprite;
     public TiledMapInputProcessor inputProcessor;
     public Stage dialogStage;
+    public Stage combatStage;
     BaseDialog currentDialog;
     public FitViewport dialogViewport;
+    public FitViewport combatViewport;
     GameEvents gameMap;
     Map<String, BaseDialog> loadedDialogs = new HashMap<>();
 
-    public CurrentSceneType currentStageType = CurrentSceneType.TiledMap;
+    public CurrentSceneType currentStageType = CurrentSceneType.Combat;
 
     @Override
     public void create() {
@@ -68,6 +71,7 @@ public class MyGdxGame extends ApplicationAdapter {
         princess = new Texture("SPRITES\\HEROS\\PRINCESS\\HEROS_PixelPackTOPDOWN8BIT_Princess Idle D.gif");
         bobSprite = new Sprite(new Texture("SPRITES\\HEROS\\ADVENTURER\\HEROS_PixelPackTOPDOWN8BIT_Adventurer Attack D.gif"));
         bobPortrait = new Texture("bob.jpg");
+        rat = new Texture("SPRITES\\ENEMIES\\rat2.jpg");
 
         renderer = new OrthogonalTiledMapRenderer(currentMap, unitScale);
 
@@ -137,7 +141,91 @@ public class MyGdxGame extends ApplicationAdapter {
         dialogStage.addActor(stack);
 
 //        table.setDebug(true);
-        table2.setDebug(true);
+//        table2.setDebug(true);
+    }
+
+    void createCombatStage(){
+        Skin skin = new Skin();
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("SKIN//uiskin.atlas"));
+        skin.addRegions(atlas);
+        skin.load(Gdx.files.internal("SKIN\\uiskin.json"));
+        Label attackLabel = new Label("1 - Attack", skin);
+        Label ratAppearLabel = new Label("A rat appears!", skin);
+        Label hp = new Label("10 / 10", skin);
+        Label hp2 = new Label("10 / 10", skin);
+        Label rathp = new Label("Rat A 8 / 8", skin);
+        Label rathp2 = new Label("Rat B 8 / 8", skin);
+        Label emptyLine = new Label("", skin);
+
+
+        combatViewport = new FitViewport(850, 600);
+        combatStage = new Stage(combatViewport);
+
+        Pixmap pixmap = new Pixmap(64, 64, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.LIGHT_GRAY);
+        pixmap.drawRectangle(0, 0, 64, 64);
+        TextureRegionDrawable borderTexture = new TextureRegionDrawable(new Texture(pixmap));
+        pixmap.dispose();
+
+        Table table = new Table();
+//        table.setBackground(borderTexture);
+        table.top().left().pad(16);
+        Image p = new Image(princessSprite);
+        p.scaleBy(5);
+        Image ratB = new Image(rat);
+        Image ratC = new Image(rat);
+
+        table.row();
+        table.add(p).maxWidth(350).maxHeight(100).left().bottom().expandX().expandY();
+        table.add(ratB).maxWidth(350).maxHeight(100).right().bottom().expandX().expandY();
+        table.row();
+        table.add(hp).left();
+        table.add(rathp).right();
+
+        table.row();
+        table.add(emptyLine);
+        table.add(ratC).maxWidth(400).maxHeight(100).right().bottom();
+        table.row();
+        table.add(emptyLine);
+        table.add(rathp2).right();
+
+        table.row().height(200);
+        table.add(attackLabel).left();
+        table.row().height(100);
+        table.add(ratAppearLabel).center().colspan(2);
+
+        Table table2 = new Table();
+        table2.setBackground(borderTexture);
+        table2.top().left();
+        table2.row();
+        table2.add(emptyLine).width(800).height(200);
+
+//        table2.bottom().left().padBottom(150f);
+//        table2.setBackground(borderTexture);
+//        if (currentDialog.getCurrentDialog().isEndOfLine()) {
+//            int i = 1;
+//            for (PlayerResponseResult response : currentDialog.getPlayerOptions()) {
+//                Label op = new Label(i + " - " + response.getLine(), skin);
+//                table2.row();
+//                table2.add(emptyLine).width(300f);
+//                table2.add(op).expandX().center();
+//                i++;
+//            }
+//        } else {
+//            Label op = new Label("(Press space bar)", skin);
+//            table2.row();
+//            table2.add(emptyLine).width(300f);
+//            table2.add(op).expandX().center();
+//        }
+
+//        Stack stack = new Stack(table, table2);
+//        stack.setFillParent(true);
+
+        table.setFillParent(true);
+//        table.setDebug(true);
+        table2.setFillParent(true);
+        combatStage.addActor(table);
+        combatStage.addActor(table2);
     }
 
     @Override
@@ -169,6 +257,11 @@ public class MyGdxGame extends ApplicationAdapter {
             createDialogStage();
             dialogStage.act(Gdx.graphics.getDeltaTime());
             dialogStage.draw();
+        }
+        if(currentStageType == CurrentSceneType.Combat){
+            createCombatStage();
+            combatStage.act(Gdx.graphics.getDeltaTime());
+            combatStage.draw();
         }
     }
 
@@ -216,23 +309,12 @@ public class MyGdxGame extends ApplicationAdapter {
                 createDialogStage();
                 currentStageType = CurrentSceneType.Dialog;
             }
+
+            if (eventDetails.getEventType() == EventType.combat) {
+
+            }
         }
 
-
-//        if (currentMap == guildMap &&
-//                (playerCoord.x == 15 || playerCoord.x == 14 || playerCoord.x == 13) &&
-//                playerCoord.y == 0) {
-//            // enter village
-//            renderer = new OrthogonalTiledMapRenderer(villageMap, unitScale);
-//            playerCoord.x = 15;
-//            playerCoord.y = 12;
-//            currentMap = villageMap;
-//            camera = new OrthographicCamera();
-//            camera.setToOrtho(false, 16 * (renderRatio), 16);
-//            renderer.setView(camera);
-//            inputProcessor = new TiledMapInputProcessor(camera, currentMap, playerCoord, renderer);
-//            Gdx.input.setInputProcessor(inputProcessor);
-//        }
 
     }
 }

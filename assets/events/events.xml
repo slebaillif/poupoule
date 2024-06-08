@@ -90,6 +90,22 @@
                         </coordinates>
                     </eventDetails>
                 </location>
+                <location>
+                    <coordinates>
+                        <x>15</x>
+                        <y>13</y>
+                    </coordinates>
+                    <eventDetails>
+                        <eventType>
+                            combat
+                        </eventType>
+                        <newMap>rat</newMap>
+                        <coordinates>
+                            <x>14</x>
+                            <y>8</y>
+                        </coordinates>
+                    </eventDetails>
+                </location>
             </locations>
         </map>
     </maps>

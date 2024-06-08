@@ -2,5 +2,6 @@ package com.mygdx.poupoule.event;
 
 public enum EventType {
     changeMap,
-    dialog
+    dialog,
+    combat
 }
