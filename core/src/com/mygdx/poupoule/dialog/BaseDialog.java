@@ -49,4 +49,8 @@ public class BaseDialog implements GameDialog {
         this.currentDialog = dialog;
         this.lineIndex = 0;
     }
+
+    public DialogData getData() {
+        return data;
+    }
 }

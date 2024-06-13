@@ -39,7 +39,6 @@ public class MyGdxGame extends ApplicationAdapter {
     public OrthographicCamera camera;
     public PlayerCoord playerCoord = new PlayerCoord(13, 15);
     Texture princess;
-    Texture bobPortrait;
     Texture rat;
     Sprite princessSprite;
     Sprite bobSprite;
@@ -52,7 +51,7 @@ public class MyGdxGame extends ApplicationAdapter {
     GameEvents gameMap;
     Map<String, BaseDialog> loadedDialogs = new HashMap<>();
 
-    public CurrentSceneType currentStageType = CurrentSceneType.Combat;
+    public CurrentSceneType currentStageType = CurrentSceneType.TiledMap;
 
     @Override
     public void create() {
@@ -70,7 +69,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         princess = new Texture("SPRITES\\HEROS\\PRINCESS\\HEROS_PixelPackTOPDOWN8BIT_Princess Idle D.gif");
         bobSprite = new Sprite(new Texture("SPRITES\\HEROS\\ADVENTURER\\HEROS_PixelPackTOPDOWN8BIT_Adventurer Attack D.gif"));
-        bobPortrait = new Texture("bob.jpg");
+
         rat = new Texture("SPRITES\\ENEMIES\\rat2.jpg");
 
         renderer = new OrthogonalTiledMapRenderer(currentMap, unitScale);
@@ -92,7 +91,7 @@ public class MyGdxGame extends ApplicationAdapter {
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("SKIN//uiskin.atlas"));
         skin.addRegions(atlas);
         skin.load(Gdx.files.internal("SKIN\\uiskin.json"));
-        Label nameLabel = new Label("Bob, interim's Guild Master", skin);
+        Label nameLabel = new Label(currentDialog.getData().getTitle(), skin);
         Label dialogLine = new Label(currentDialog.getCurrentDialog().getLine(), skin);
         Label emptyLine = new Label("", skin);
 
@@ -107,9 +106,9 @@ public class MyGdxGame extends ApplicationAdapter {
         pixmap.dispose();
 
         Table table = new Table();
-//        table.setBackground(borderTexture);
         table.top().left();
-        table.add(new Image(bobPortrait)).maxWidth(300).maxHeight(300).left();
+        Texture portrait = new Texture(currentDialog.getData().getPortrait());
+        table.add(new Image(portrait)).maxWidth(300).maxHeight(300).left();
         table.add(dialogLine).left().expandX().center();
         table.row();
         table.add(nameLabel).center();
@@ -140,8 +139,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
         dialogStage.addActor(stack);
 
-//        table.setDebug(true);
-//        table2.setDebug(true);
     }
 
     void createCombatStage(){
@@ -168,7 +165,6 @@ public class MyGdxGame extends ApplicationAdapter {
         pixmap.dispose();
 
         Table table = new Table();
-//        table.setBackground(borderTexture);
         table.top().left().pad(16);
         Image p = new Image(princessSprite);
         p.scaleBy(5);

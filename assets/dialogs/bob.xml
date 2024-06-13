@@ -2,6 +2,8 @@
     <npc>
         Bob
     </npc>
+    <title>"Bob, interim's Guild Master"</title>
+    <portrait>bob.jpg</portrait>
     <startingPoint>firstMeeting</startingPoint>
     <exit>
         <x>15</x>

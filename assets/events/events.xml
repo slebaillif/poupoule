@@ -20,6 +20,23 @@
                         </coordinates>
                     </eventDetails>
                 </location>
+
+                <location>
+                    <coordinates>
+                        <x>8</x>
+                        <y>13</y>
+                    </coordinates>
+                    <eventDetails>
+                        <eventType>
+                            changeMap
+                        </eventType>
+                        <newMap>healer</newMap>
+                        <coordinates>
+                            <x>7</x>
+                            <y>1</y>
+                        </coordinates>
+                    </eventDetails>
+                </location>
             </locations>
         </map>
         <map>
@@ -103,6 +120,60 @@
                         <coordinates>
                             <x>14</x>
                             <y>8</y>
+                        </coordinates>
+                    </eventDetails>
+                </location>
+            </locations>
+        </map>
+        <map>
+            <name>healer</name>
+            <tileFile>healer.tmx</tileFile>
+            <locations>
+                <location>
+                    <coordinates>
+                        <x>6</x>
+                        <y>0</y>
+                    </coordinates>
+                    <eventDetails>
+                        <eventType>
+                            changeMap
+                        </eventType>
+                        <newMap>village</newMap>
+                        <coordinates>
+                            <x>8</x>
+                            <y>12</y>
+                        </coordinates>
+                    </eventDetails>
+                </location>
+                <location>
+                    <coordinates>
+                        <x>7</x>
+                        <y>0</y>
+                    </coordinates>
+                    <eventDetails>
+                        <eventType>
+                            changeMap
+                        </eventType>
+                        <newMap>village</newMap>
+                        <coordinates>
+                            <x>8</x>
+                            <y>12</y>
+                        </coordinates>
+                    </eventDetails>
+                </location>
+                <location>
+                    <coordinates>
+                        <x>8</x>
+                        <y>0</y>
+                    </coordinates>
+                    <eventDetails>
+                        <eventType>
+                            changeMap
+                        </eventType>
+                        <newMap>village</newMap>
+                        <coordinates>
+                            <x>8</x>
+                            <y>12</y>
                         </coordinates>
                     </eventDetails>
                 </location>

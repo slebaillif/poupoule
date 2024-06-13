@@ -3,11 +3,19 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "guild.tmx",
+    "activeFile": "village.tmx",
     "expandedProjectPaths": [
         "."
     ],
     "fileStates": {
+        "Modern_Int_A2.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Modern_Outside_A4.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "PixelPackTOPDOWN8BIT.tsx": {
             "scaleInDock": 3,
             "scaleInEditor": 1
@@ -16,32 +24,49 @@
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 222,
-                "y": 191.5
+                "x": 181.25,
+                "y": 191.25
+            }
+        },
+        "healer.tmx": {
+            "scale": 2.7470833333333333,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 92.64371302897011,
+                "y": 120.3094190808433
             }
         },
         "village.tmx": {
             "scale": 2,
-            "selectedLayer": 0,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 253,
-                "y": 159.75
+                "x": 211.25,
+                "y": 158.75
             }
         }
     },
+    "last.imagePath": "C:/Users/Sebastien/sebastienlebaillif/Workspace/poupoule/assets/TILESET/modern-interiors-tileset-for-rpgs/32px+VXACE",
+    "map.height": 15,
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
+    "map.width": 15,
     "openFiles": [
-        "village.tmx",
-        "PixelPackTOPDOWN8BIT.tsx",
-        "guild.tmx"
+        "village.tmx"
     ],
     "project": "poupoule-L1.tiled-project",
     "property.type": "string",
     "recentFiles": [
         "village.tmx",
         "PixelPackTOPDOWN8BIT.tsx",
-        "guild.tmx"
-    ]
+        "guild.tmx",
+        "healer.tmx",
+        "Modern_Int_A2.tsx",
+        "Modern_Outside_A4.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
 }

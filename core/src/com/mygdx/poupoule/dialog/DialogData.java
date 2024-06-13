@@ -10,6 +10,10 @@ public class DialogData {
     @JsonProperty
     String npc;
     @JsonProperty
+    String title;
+    @JsonProperty
+    String portrait;
+    @JsonProperty
     String startingPoint;
     @JsonProperty
     List<Exchange> exchanges;
@@ -21,4 +25,15 @@ public class DialogData {
         return result.orElse(null);
     }
 
+    public String getNpc() {
+        return npc;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getPortrait() {
+        return portrait;
+    }
 }
