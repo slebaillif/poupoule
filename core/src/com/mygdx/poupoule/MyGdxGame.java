@@ -238,6 +238,9 @@ public class MyGdxGame extends ApplicationAdapter {
             if (currentMapName.equals("guild")) {
                 renderer.getBatch().draw(bobSprite, 15, 15, 1, 1);
             }
+            if (currentMapName.equals("healer")) {
+                renderer.getBatch().draw(bobSprite, 7, 6, 1, 1);
+            }
             renderer.getBatch().end();
 
             try {

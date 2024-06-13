@@ -1,0 +1,73 @@
+<DialogData>
+    <npc>
+        Daphne
+    </npc>
+    <title>"Daphne, Healer"</title>
+    <portrait>daphne.GIF</portrait>
+    <startingPoint>firstMeeting</startingPoint>
+    <exit>
+        <x>7</x>
+        <y>4</y>
+    </exit>
+    <exchanges>
+        <exchange>
+            <name>firstMeeting</name>
+            <npcSpeech>
+                <line>"Hello dear,my name is Daphne"</line>
+                <line>"I'm the resident healer"</line>
+                <line>
+"I'd like to be friendly,but you must follow one rule..."
+                </line>
+                <line>"I don't tolerate any rude comments to or from anyone."</line>
+            </npcSpeech>
+            <playerResponses>
+                <response>
+                    <line>"I understand."</line>
+                    <nextExchange>thanks</nextExchange>
+                </response>
+                <response>
+                    <line>"cool, cool whatevs just hel me when I need it"</line>
+                    <nextExchange>notInGuild</nextExchange>
+                </response>
+            </playerResponses>
+        </exchange>
+        <exchange>
+            <name>thanks</name>
+            <npcSpeech>
+                <line>"Thank you for understanding come back to me if you need to heal"</line>
+            </npcSpeech>
+            <playerResponses>
+                <response>
+                    <line>"Ok thank you"</line>
+                    <nextExchange>notInGuild</nextExchange>
+                </response>
+            </playerResponses>
+        </exchange>
+        <exchange>
+            <name>notInGuild</name>
+            <npcSpeech>
+                <line>
+"See you soon!."
+                </line>
+            </npcSpeech>
+            <playerResponses>
+                <response>
+                    <line>"goodbye!"</line>
+                    <nextExchange>register</nextExchange>
+                </response>
+            </playerResponses>
+        </exchange>
+        <exchange>
+            <name>register</name>
+            <npcSpeech>
+                <line>"Just be careful out there ."</line>
+            </npcSpeech>
+            <playerResponses>
+                <response>
+                    <line>"we will."</line>
+                    <nextExchange>end</nextExchange>
+                </response>
+            </playerResponses>
+        </exchange>
+    </exchanges>
+</DialogData>

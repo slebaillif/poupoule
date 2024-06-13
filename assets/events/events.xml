@@ -131,6 +131,22 @@
             <locations>
                 <location>
                     <coordinates>
+                        <x>7</x>
+                        <y>5</y>
+                    </coordinates>
+                    <eventDetails>
+                        <eventType>
+                            dialog
+                        </eventType>
+                        <newMap>daphne</newMap>
+                        <coordinates>
+                            <x>7</x>
+                            <y>4</y>
+                        </coordinates>
+                    </eventDetails>
+                </location>
+                <location>
+                    <coordinates>
                         <x>6</x>
                         <y>0</y>
                     </coordinates>
