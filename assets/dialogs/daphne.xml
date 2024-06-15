@@ -13,12 +13,12 @@
         <exchange>
             <name>firstMeeting</name>
             <npcSpeech>
-                <line>"Hello dear,my name is Daphne"</line>
-                <line>"I'm the resident healer"</line>
+                <line>"Hello dear, my name is Daphne."</line>
+                <line>"I'm the resident healer."</line>
                 <line>
-"I'd like to be friendly,but you must follow one rule..."
+"I'd like to be friendly, but you must follow one rule..."
                 </line>
-                <line>"I don't tolerate any rude comments to or from anyone."</line>
+                <line>"I don't tolerate any rude comments to, or from, anyone."</line>
             </npcSpeech>
             <playerResponses>
                 <response>
@@ -26,7 +26,7 @@
                     <nextExchange>thanks</nextExchange>
                 </response>
                 <response>
-                    <line>"cool, cool whatevs just hel me when I need it"</line>
+                    <line>"cool, cool, whatevs, just heal me when I need it."</line>
                     <nextExchange>notInGuild</nextExchange>
                 </response>
             </playerResponses>
@@ -34,11 +34,11 @@
         <exchange>
             <name>thanks</name>
             <npcSpeech>
-                <line>"Thank you for understanding come back to me if you need to heal"</line>
+                <line>"Thank you for understanding, come back to me if you need some healing."</line>
             </npcSpeech>
             <playerResponses>
                 <response>
-                    <line>"Ok thank you"</line>
+                    <line>"Ok, thank you."</line>
                     <nextExchange>notInGuild</nextExchange>
                 </response>
             </playerResponses>
