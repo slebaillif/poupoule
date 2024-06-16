@@ -8,4 +8,12 @@ public class GameLocation {
     PlayerCoord coordinates;
     @JsonProperty
     EventDetails eventDetails;
+
+    public PlayerCoord getCoordinates() {
+        return coordinates;
+    }
+
+    public EventDetails getEventDetails() {
+        return eventDetails;
+    }
 }

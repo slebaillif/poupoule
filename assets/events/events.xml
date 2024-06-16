@@ -110,7 +110,7 @@
                 <location>
                     <coordinates>
                         <x>15</x>
-                        <y>13</y>
+                        <y>7</y>
                     </coordinates>
                     <eventDetails>
                         <eventType>
@@ -120,6 +120,38 @@
                         <coordinates>
                             <x>14</x>
                             <y>8</y>
+                        </coordinates>
+                    </eventDetails>
+                </location>
+                <location>
+                    <coordinates>
+                        <x>15</x>
+                        <y>7</y>
+                    </coordinates>
+                    <eventDetails>
+                        <eventType>
+                            npc
+                        </eventType>
+                        <newMap>rat</newMap>
+                        <coordinates>
+                            <x>14</x>
+                            <y>8</y>
+                        </coordinates>
+                    </eventDetails>
+                </location>
+                <location>
+                    <coordinates>
+                        <x>15</x>
+                        <y>15</y>
+                    </coordinates>
+                    <eventDetails>
+                        <eventType>
+                            npc
+                        </eventType>
+                        <newMap>bob</newMap>
+                        <coordinates>
+                            <x>1</x>
+                            <y>1</y>
                         </coordinates>
                     </eventDetails>
                 </location>
@@ -142,6 +174,22 @@
                         <coordinates>
                             <x>7</x>
                             <y>4</y>
+                        </coordinates>
+                    </eventDetails>
+                </location>
+                <location>
+                    <coordinates>
+                        <x>7</x>
+                        <y>6</y>
+                    </coordinates>
+                    <eventDetails>
+                        <eventType>
+                            npc
+                        </eventType>
+                        <newMap>daphne</newMap>
+                        <coordinates>
+                            <x>14</x>
+                            <y>8</y>
                         </coordinates>
                     </eventDetails>
                 </location>

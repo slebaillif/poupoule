@@ -23,6 +23,7 @@ import com.mygdx.poupoule.dialog.PlayerResponseResult;
 import com.mygdx.poupoule.event.EventDetails;
 import com.mygdx.poupoule.event.EventType;
 import com.mygdx.poupoule.event.GameEvents;
+import com.mygdx.poupoule.event.GameLocation;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,7 +42,6 @@ public class MyGdxGame extends ApplicationAdapter {
     Texture princess;
     Texture rat;
     Sprite princessSprite;
-    Sprite bobSprite;
     public TiledMapInputProcessor inputProcessor;
     public Stage dialogStage;
     public Stage combatStage;
@@ -52,6 +52,7 @@ public class MyGdxGame extends ApplicationAdapter {
     Map<String, BaseDialog> loadedDialogs = new HashMap<>();
 
     public CurrentSceneType currentStageType = CurrentSceneType.TiledMap;
+    HashMap<String, Sprite> npcSprites = new HashMap<>(10);
 
     @Override
     public void create() {
@@ -68,14 +69,26 @@ public class MyGdxGame extends ApplicationAdapter {
         currentMap = loadTileMap(fileName);
 
         princess = new Texture("SPRITES\\HEROS\\PRINCESS\\HEROS_PixelPackTOPDOWN8BIT_Princess Idle D.gif");
-        bobSprite = new Sprite(new Texture("SPRITES\\HEROS\\ADVENTURER\\HEROS_PixelPackTOPDOWN8BIT_Adventurer Attack D.gif"));
+        Sprite daphne = new Sprite(new Texture("SPRITES\\daphne.PNG"));
+        Sprite bobSprite = new Sprite(new Texture("SPRITES\\HEROS\\ADVENTURER\\HEROS_PixelPackTOPDOWN8BIT_Adventurer Attack D.gif"));
 
         rat = new Texture("SPRITES\\ENEMIES\\rat2.jpg");
+
+        npcSprites.put("bob", bobSprite);
+        npcSprites.put("daphne", daphne);
+        npcSprites.put("rat", new Sprite(rat));
 
         renderer = new OrthogonalTiledMapRenderer(currentMap, unitScale);
 
         princessSprite = new Sprite(princess);
 
+    }
+
+    public void changeSceneType(CurrentSceneType sceneType) {
+        if (sceneType == CurrentSceneType.TiledMap) {
+            screenForMap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        }
+        this.currentStageType = sceneType;
     }
 
     TiledMap loadTileMap(String fileName) {
@@ -96,7 +109,7 @@ public class MyGdxGame extends ApplicationAdapter {
         Label emptyLine = new Label("", skin);
 
 
-        dialogViewport = new FitViewport(800, 600);
+        dialogViewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         dialogStage = new Stage(dialogViewport);
 
         Pixmap pixmap = new Pixmap(64, 64, Pixmap.Format.RGBA8888);
@@ -141,7 +154,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
     }
 
-    void createCombatStage(){
+    void createCombatStage() {
         Skin skin = new Skin();
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("SKIN//uiskin.atlas"));
         skin.addRegions(atlas);
@@ -155,7 +168,7 @@ public class MyGdxGame extends ApplicationAdapter {
         Label emptyLine = new Label("", skin);
 
 
-        combatViewport = new FitViewport(850, 600);
+        combatViewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         combatStage = new Stage(combatViewport);
 
         Pixmap pixmap = new Pixmap(64, 64, Pixmap.Format.RGBA8888);
@@ -165,7 +178,7 @@ public class MyGdxGame extends ApplicationAdapter {
         pixmap.dispose();
 
         Table table = new Table();
-        table.top().left().pad(16);
+        table.top().left().pad(32);
         Image p = new Image(princessSprite);
         p.scaleBy(5);
         Image ratB = new Image(rat);
@@ -235,11 +248,11 @@ public class MyGdxGame extends ApplicationAdapter {
 
             renderer.getBatch().begin();
             renderer.getBatch().draw(princessSprite, playerCoord.x, playerCoord.y, 1, 1);
-            if (currentMapName.equals("guild")) {
-                renderer.getBatch().draw(bobSprite, 15, 15, 1, 1);
-            }
-            if (currentMapName.equals("healer")) {
-                renderer.getBatch().draw(bobSprite, 7, 6, 1, 1);
+
+            java.util.List<GameLocation> npcs = gameMap.getEventFromType(currentMapName, EventType.npc);
+            for (GameLocation npc : npcs) {
+                EventDetails d = npc.getEventDetails();
+                renderer.getBatch().draw(npcSprites.get(d.getNewMap()), npc.getCoordinates().x, npc.getCoordinates().y, 1, 1);
             }
             renderer.getBatch().end();
 
@@ -257,7 +270,7 @@ public class MyGdxGame extends ApplicationAdapter {
             dialogStage.act(Gdx.graphics.getDeltaTime());
             dialogStage.draw();
         }
-        if(currentStageType == CurrentSceneType.Combat){
+        if (currentStageType == CurrentSceneType.Combat) {
             createCombatStage();
             combatStage.act(Gdx.graphics.getDeltaTime());
             combatStage.draw();
@@ -272,15 +285,20 @@ public class MyGdxGame extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         if (currentStageType == CurrentSceneType.TiledMap) {
-            camera = new OrthographicCamera();
-            renderRatio = (float) (width) / (float) height;
-            camera.setToOrtho(false, 16 * (renderRatio), 16);
-
-            inputProcessor = new TiledMapInputProcessor(camera, currentMap, playerCoord, renderer);
-            Gdx.input.setInputProcessor(inputProcessor);
+            screenForMap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         } else if (currentStageType == CurrentSceneType.Dialog) {
             dialogStage.getViewport().update(width, height, true);
         }
+    }
+
+    private void screenForMap(int width, float height) {
+        renderRatio = (float) (width) / (float) height;
+        renderer = new OrthogonalTiledMapRenderer(currentMap, unitScale);
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 16 * (renderRatio), 16);
+        renderer.setView(camera);
+        inputProcessor = new TiledMapInputProcessor(camera, currentMap, playerCoord, renderer);
+        Gdx.input.setInputProcessor(inputProcessor);
     }
 
     public void checkCoordinateEvent() throws IOException {
@@ -292,12 +310,7 @@ public class MyGdxGame extends ApplicationAdapter {
                 playerCoord.x = eventDetails.getCoordinates().x;
                 playerCoord.y = eventDetails.getCoordinates().y;
 
-                renderer = new OrthogonalTiledMapRenderer(currentMap, unitScale);
-                camera = new OrthographicCamera();
-                camera.setToOrtho(false, 16 * (renderRatio), 16);
-                renderer.setView(camera);
-                inputProcessor = new TiledMapInputProcessor(camera, currentMap, playerCoord, renderer);
-                Gdx.input.setInputProcessor(inputProcessor);
+                screenForMap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
             }
 
             if (eventDetails.getEventType() == EventType.dialog) {
@@ -310,10 +323,8 @@ public class MyGdxGame extends ApplicationAdapter {
             }
 
             if (eventDetails.getEventType() == EventType.combat) {
-
+                this.changeSceneType(CurrentSceneType.Combat);
             }
         }
-
-
     }
 }
