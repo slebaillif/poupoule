@@ -117,6 +117,7 @@
                             combat
                         </eventType>
                         <newMap>rat</newMap>
+                        <imagePath>SPRITES\ENEMIES\rat2.jpg</imagePath>
                         <coordinates>
                             <x>14</x>
                             <y>7</y>

@@ -45,7 +45,6 @@ public class MyGdxGame extends ApplicationAdapter {
     public OrthographicCamera camera;
     public SimpleCoord playerCoord = new SimpleCoord(13, 10);
     Texture princess;
-    Texture rat;
     Sprite princessSprite;
     public TiledMapInputProcessor inputProcessor;
     public Stage dialogStage;
@@ -84,18 +83,15 @@ public class MyGdxGame extends ApplicationAdapter {
         Sprite daphne = new Sprite(new Texture("SPRITES\\daphne.PNG"));
         Sprite bobSprite = new Sprite(new Texture("SPRITES\\HEROS\\ADVENTURER\\HEROS_PixelPackTOPDOWN8BIT_Adventurer Attack D.gif"));
 
-        rat = new Texture("SPRITES\\ENEMIES\\rat2.jpg");
-
         npcSprites.put("bob", bobSprite);
         npcSprites.put("daphne", daphne);
-        npcSprites.put("rat", new Sprite(rat));
 
         renderer = new OrthogonalTiledMapRenderer(currentMap, unitScale);
 
         princessSprite = new Sprite(princess);
 
-        Monster ratA = new Monster("Rat A", "Gaint Rat", 8, 0, 1, "Bites", "SPRITES\\ENEMIES\\rat2.jpg");
-        Monster ratB = new Monster("Rat B", "Gaint Rat", 7, 0, 1, "Bites", "SPRITES\\ENEMIES\\rat2.jpg");
+        Monster ratA = new Monster("Rat A", "Giant Rat", 8, 0, 1, "Bites", "SPRITES\\ENEMIES\\rat2.jpg");
+        Monster ratB = new Monster("Rat B", "Giant Rat", 7, 0, 1, "Bites", "SPRITES\\ENEMIES\\rat2.jpg");
         this.combat = new Combat();
         combat.addMonsters(Arrays.asList(ratA, ratB));
 
@@ -277,7 +273,8 @@ public class MyGdxGame extends ApplicationAdapter {
             for (GameLocation cb : combats) {
                 EventDetails d = cb.getEventDetails();
                 if (!worldState.isCombatResolved(currentMapName, d.getNewMap())) {
-                    renderer.getBatch().draw(npcSprites.get(d.getNewMap()), cb.getCoordinates().x, cb.getCoordinates().y, 1, 1);
+                    Sprite cbImage = new Sprite(new Texture("SPRITES\\ENEMIES\\rat2.jpg"));
+                    renderer.getBatch().draw(cbImage, cb.getCoordinates().x, cb.getCoordinates().y, 1, 1);
                 }
             }
             renderer.getBatch().end();

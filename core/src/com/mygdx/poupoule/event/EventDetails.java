@@ -10,6 +10,8 @@ public class EventDetails {
     String newMap;
     @JsonProperty
     SimpleCoord coordinates;
+    @JsonProperty
+    String imagePath = null;
 
     public EventType getEventType() {
         return eventType;
@@ -21,5 +23,9 @@ public class EventDetails {
 
     public SimpleCoord getCoordinates() {
         return coordinates;
+    }
+
+    public String getImagePath() {
+        return imagePath;
     }
 }
