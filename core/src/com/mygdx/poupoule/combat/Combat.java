@@ -18,6 +18,8 @@ public class Combat implements InputProcessor {
     MainCharacter hero;
     List<Monster> monsters = new ArrayList<>();
     List<PlayerAction> possibleActions = new ArrayList<>();
+    String map;
+    String combatName;
 
     boolean actionMode = true; // false means select target
     PlayerAction slectedAction = null;
@@ -37,6 +39,14 @@ public class Combat implements InputProcessor {
 
     public void setExitCoordinates(SimpleCoord exitCoordinates) {
         this.exitCoordinates = exitCoordinates;
+    }
+
+    public void setMap(String map) {
+        this.map = map;
+    }
+
+    public void setCombatName(String combatName) {
+        this.combatName = combatName;
     }
 
     public void addActions(List<PlayerAction> m) {
@@ -90,6 +100,7 @@ public class Combat implements InputProcessor {
                 theGame.playerCoord.setX(exitCoordinates.getX());
                 theGame.playerCoord.setY(exitCoordinates.getY());
                 theGame.changeSceneType(CurrentSceneType.TiledMap);
+                theGame.getWorldState().addResolvedCombat(map, combatName);
             }
             if (action.targetType == singleMonster) {
                 actionMode = false;

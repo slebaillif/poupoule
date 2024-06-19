@@ -60,6 +60,11 @@ public class MyGdxGame extends ApplicationAdapter {
     HashMap<String, Sprite> npcSprites = new HashMap<>(10);
     Combat combat;
     MainCharacter hero;
+    WorldState worldState = new WorldState();
+
+    public WorldState getWorldState() {
+        return worldState;
+    }
 
     @Override
     public void create() {
@@ -101,7 +106,9 @@ public class MyGdxGame extends ApplicationAdapter {
         combat.setDisplay("Two rats appear!");
         combat.setHero(hero);
         combat.setTheGame(this);
-        combat.setExitCoordinates(new SimpleCoord(14,7));
+        combat.setExitCoordinates(new SimpleCoord(14, 7));
+        combat.setMap("guild");
+        combat.setCombatName("rat");
 
 
     }
@@ -266,6 +273,13 @@ public class MyGdxGame extends ApplicationAdapter {
                 EventDetails d = npc.getEventDetails();
                 renderer.getBatch().draw(npcSprites.get(d.getNewMap()), npc.getCoordinates().x, npc.getCoordinates().y, 1, 1);
             }
+            java.util.List<GameLocation> combats = gameMap.getEventFromType(currentMapName, EventType.combat);
+            for (GameLocation cb : combats) {
+                EventDetails d = cb.getEventDetails();
+                if (!worldState.isCombatResolved(currentMapName, d.getNewMap())) {
+                    renderer.getBatch().draw(npcSprites.get(d.getNewMap()), cb.getCoordinates().x, cb.getCoordinates().y, 1, 1);
+                }
+            }
             renderer.getBatch().end();
 
             try {
@@ -335,7 +349,9 @@ public class MyGdxGame extends ApplicationAdapter {
             }
 
             if (eventDetails.getEventType() == EventType.combat) {
-                this.changeSceneType(CurrentSceneType.Combat);
+                if (!worldState.isCombatResolved(currentMapName, eventDetails.getNewMap())) {
+                    this.changeSceneType(CurrentSceneType.Combat);
+                }
             }
         }
     }

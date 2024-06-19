@@ -126,22 +126,6 @@
                 <location>
                     <coordinates>
                         <x>15</x>
-                        <y>7</y>
-                    </coordinates>
-                    <eventDetails>
-                        <eventType>
-                            npc
-                        </eventType>
-                        <newMap>rat</newMap>
-                        <coordinates>
-                            <x>14</x>
-                            <y>7</y>
-                        </coordinates>
-                    </eventDetails>
-                </location>
-                <location>
-                    <coordinates>
-                        <x>15</x>
                         <y>15</y>
                     </coordinates>
                     <eventDetails>

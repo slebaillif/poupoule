@@ -10,6 +10,7 @@ public class Monster {
     Integer defense;
     Integer attack;
     String attackName;
+
     Integer currentHitPoints;
     String imagePath;
     Image monsterImage;
