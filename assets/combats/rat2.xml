@@ -1,0 +1,31 @@
+<CombatData>
+    <combatName>rat2</combatName>
+    <map>guild</map>
+    <exitCoordinates>
+        <x>12</x>
+        <y>7</y>
+    </exitCoordinates>
+    <display>Two giant rats attack!</display>
+    <monsters>
+        <monster>
+            <name>Rat A</name>
+            <type>Giant Rat</type>
+            <hitPoints>3</hitPoints>
+            <currentHitPoints>3</currentHitPoints>
+            <defense>0</defense>
+            <attack>1</attack>
+            <attackName>Bites</attackName>
+            <imagePath>SPRITES\ENEMIES\rat2.jpg</imagePath>
+        </monster>
+        <monster>
+            <name>Rat B</name>
+            <type>Giant Rat</type>
+            <hitPoints>4</hitPoints>
+            <currentHitPoints>4</currentHitPoints>
+            <defense>0</defense>
+            <attack>1</attack>
+            <attackName>Bites</attackName>
+            <imagePath>SPRITES\ENEMIES\rat2.jpg</imagePath>
+        </monster>
+    </monsters>
+</CombatData>
