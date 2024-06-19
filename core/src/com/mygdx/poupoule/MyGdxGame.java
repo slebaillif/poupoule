@@ -87,28 +87,8 @@ public class MyGdxGame extends ApplicationAdapter {
         npcSprites.put("daphne", daphne);
 
         renderer = new OrthogonalTiledMapRenderer(currentMap, unitScale);
-
-        princessSprite = new Sprite(princess);
-        this.combat = new Combat();
-        try {
-            XmlMapper xmlMapper = new XmlMapper();
-            InputStream stream = Combat.class.getClassLoader().getResourceAsStream("combats\\combat.xml");
-            CombatData d = xmlMapper.readValue(stream, CombatData.class);
-            this.combat.setCombatData(d);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-
-
         hero = new MainCharacter("PrinSeSS", 3, 0, 15);
-        PlayerAction attack = new PlayerAction("Attack", singleMonster, new DamageEffect(3));
-        PlayerAction leave = new ExitAction("Leave combat", singleHero, null);
-        combat.addActions(Arrays.asList(attack, leave));
-        combat.setHero(hero);
-        combat.setTheGame(this);
-
-
+        princessSprite = new Sprite(princess);
     }
 
     public void changeSceneType(CurrentSceneType sceneType) {
@@ -124,6 +104,10 @@ public class MyGdxGame extends ApplicationAdapter {
 
     BaseDialog loadDialog(String name) throws IOException {
         return new BaseDialog("dialogs\\" + name + ".xml");
+    }
+
+    Combat loadCombat(String name) throws IOException {
+        return new Combat("combats\\" + name + ".xml");
     }
 
     public void createDialogStage() {
@@ -349,6 +333,13 @@ public class MyGdxGame extends ApplicationAdapter {
 
             if (eventDetails.getEventType() == EventType.combat) {
                 if (!worldState.isCombatResolved(currentMapName, eventDetails.getNewMap())) {
+                    this.combat = loadCombat(eventDetails.getNewMap());
+
+                    PlayerAction attack = new PlayerAction("Attack", singleMonster, new DamageEffect(3));
+                    PlayerAction leave = new ExitAction("Leave combat", singleHero, null);
+                    combat.addActions(Arrays.asList(attack, leave));
+                    combat.setHero(hero);
+                    combat.setTheGame(this);
                     this.changeSceneType(CurrentSceneType.Combat);
                 }
             }

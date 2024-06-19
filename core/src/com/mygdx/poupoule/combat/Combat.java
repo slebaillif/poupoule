@@ -1,11 +1,12 @@
 package com.mygdx.poupoule.combat;
 
 import com.badlogic.gdx.InputProcessor;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.mygdx.poupoule.CurrentSceneType;
 import com.mygdx.poupoule.MyGdxGame;
-import com.mygdx.poupoule.SimpleCoord;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +21,17 @@ public class Combat implements InputProcessor {
     boolean actionMode = true; // false means select target
     PlayerAction slectedAction = null;
     MainCharacter hero;
+
+    public Combat(String combatPath) {
+        try {
+            XmlMapper xmlMapper = new XmlMapper();
+            InputStream stream = Combat.class.getClassLoader().getResourceAsStream(combatPath);
+            CombatData d = xmlMapper.readValue(stream, CombatData.class);
+            this.setCombatData(d);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void setCombatData(CombatData combatData) {
         this.combatData = combatData;
