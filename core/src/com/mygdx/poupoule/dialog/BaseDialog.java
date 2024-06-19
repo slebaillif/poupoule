@@ -1,7 +1,7 @@
 package com.mygdx.poupoule.dialog;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.mygdx.poupoule.PlayerCoord;
+import com.mygdx.poupoule.SimpleCoord;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +35,7 @@ public class BaseDialog implements GameDialog {
     }
 
     @Override
-    public PlayerCoord getExitCoord() {
+    public SimpleCoord getExitCoord() {
         return data.exit;
     }
 

@@ -1,13 +1,13 @@
 package com.mygdx.poupoule;
 
-public class PlayerCoord {
+public class SimpleCoord {
     int x;
     int y;
 
-    public PlayerCoord() {
+    public SimpleCoord() {
     }
 
-    public PlayerCoord(int x, int y) {
+    public SimpleCoord(int x, int y) {
         this.x = x;
         this.y = y;
     }

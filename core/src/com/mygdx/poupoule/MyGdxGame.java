@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.mygdx.poupoule.combat.*;
 import com.mygdx.poupoule.dialog.BaseDialog;
 import com.mygdx.poupoule.dialog.DialogInputProcessor;
 import com.mygdx.poupoule.dialog.PlayerResponseResult;
@@ -27,8 +28,12 @@ import com.mygdx.poupoule.event.GameLocation;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.mygdx.poupoule.combat.TargetType.singleHero;
+import static com.mygdx.poupoule.combat.TargetType.singleMonster;
 
 public class MyGdxGame extends ApplicationAdapter {
 
@@ -38,7 +43,7 @@ public class MyGdxGame extends ApplicationAdapter {
     float renderRatio;
     public OrthogonalTiledMapRenderer renderer;
     public OrthographicCamera camera;
-    public PlayerCoord playerCoord = new PlayerCoord(13, 15);
+    public SimpleCoord playerCoord = new SimpleCoord(13, 10);
     Texture princess;
     Texture rat;
     Sprite princessSprite;
@@ -53,6 +58,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
     public CurrentSceneType currentStageType = CurrentSceneType.TiledMap;
     HashMap<String, Sprite> npcSprites = new HashMap<>(10);
+    Combat combat;
+    MainCharacter hero;
 
     @Override
     public void create() {
@@ -81,6 +88,21 @@ public class MyGdxGame extends ApplicationAdapter {
         renderer = new OrthogonalTiledMapRenderer(currentMap, unitScale);
 
         princessSprite = new Sprite(princess);
+
+        Monster ratA = new Monster("Rat A", "Gaint Rat", 8, 0, 1, "Bites", "SPRITES\\ENEMIES\\rat2.jpg");
+        Monster ratB = new Monster("Rat B", "Gaint Rat", 7, 0, 1, "Bites", "SPRITES\\ENEMIES\\rat2.jpg");
+        this.combat = new Combat();
+        combat.addMonsters(Arrays.asList(ratA, ratB));
+
+        hero = new MainCharacter("PrinSeSS", 3, 0, 15);
+        PlayerAction attack = new PlayerAction("Attack", singleMonster, new DamageEffect(3));
+        PlayerAction leave = new ExitAction("Leave combat", singleHero, null);
+        combat.addActions(Arrays.asList(attack, leave));
+        combat.setDisplay("Two rats appear!");
+        combat.setHero(hero);
+        combat.setTheGame(this);
+        combat.setExitCoordinates(new SimpleCoord(14,7));
+
 
     }
 
@@ -159,14 +181,6 @@ public class MyGdxGame extends ApplicationAdapter {
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("SKIN//uiskin.atlas"));
         skin.addRegions(atlas);
         skin.load(Gdx.files.internal("SKIN\\uiskin.json"));
-        Label attackLabel = new Label("1 - Attack", skin);
-        Label ratAppearLabel = new Label("A rat appears!", skin);
-        Label hp = new Label("10 / 10", skin);
-        Label hp2 = new Label("10 / 10", skin);
-        Label rathp = new Label("Rat A 8 / 8", skin);
-        Label rathp2 = new Label("Rat B 8 / 8", skin);
-        Label emptyLine = new Label("", skin);
-
 
         combatViewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         combatStage = new Stage(combatViewport);
@@ -177,31 +191,50 @@ public class MyGdxGame extends ApplicationAdapter {
         TextureRegionDrawable borderTexture = new TextureRegionDrawable(new Texture(pixmap));
         pixmap.dispose();
 
+
+        Label ratAppearLabel = new Label(combat.getDisplay(), skin);
+        Label hp = new Label("" + hero.getCurrentHitPoints() + " / " + hero.getHitPoints(), skin);
+        Label emptyLine = new Label("", skin);
+
         Table table = new Table();
-        table.top().left().pad(32);
+        table.top().left().pad(64);
         Image p = new Image(princessSprite);
         p.scaleBy(5);
-        Image ratB = new Image(rat);
-        Image ratC = new Image(rat);
+
 
         table.row();
         table.add(p).maxWidth(350).maxHeight(100).left().bottom().expandX().expandY();
-        table.add(ratB).maxWidth(350).maxHeight(100).right().bottom().expandX().expandY();
+
+        if (combat.getMonsters().get(0).isAlive()) {
+            table.add(combat.getMonsters().get(0).getMonsterImage()).maxWidth(350).maxHeight(100).right().bottom().expandX().expandY();
+        }
         table.row();
         table.add(hp).left();
-        table.add(rathp).right();
-
+        if (combat.getMonsters().get(0).isAlive()) {
+            table.add(new Label(combat.getMonsters().get(0).getName() + " = " + combat.getMonsters().get(0).getCurrentHitPoints() + " / " + combat.getMonsters().get(0).getHitPoints(), skin)).right();
+        }
         table.row();
-        table.add(emptyLine);
-        table.add(ratC).maxWidth(400).maxHeight(100).right().bottom();
-        table.row();
-        table.add(emptyLine);
-        table.add(rathp2).right();
+        for (int i = 1; i < combat.getMonsters().size(); i++) {
+            if (combat.getMonsters().get(i).isAlive()) {
+                table.add(emptyLine);
+                table.add(combat.getMonsters().get(i).getMonsterImage()).maxWidth(400).maxHeight(100).right().bottom();
+                table.row();
+                table.add(emptyLine);
+                table.add(new Label(combat.getMonsters().get(1).getName() + " = " + combat.getMonsters().get(i).getCurrentHitPoints() + " / " + combat.getMonsters().get(i).getHitPoints(), skin)).right();
+            }
+        }
 
-        table.row().height(200);
-        table.add(attackLabel).left();
         table.row().height(100);
+        for (int i = 1; i <= combat.getPossibleActions().size(); i++) {
+            table.row().height(100);
+            table.add(new Label("" + i + " - " + combat.getPossibleActions().get(i - 1).getName(), skin)).left();
+        }
+        table.row().height(200);
         table.add(ratAppearLabel).center().colspan(2);
+        if (combat.allMonstersDefeated()) {
+            table.row();
+            table.add(new Label("LOOT", skin)).center().colspan(2);
+        }
 
         Table table2 = new Table();
         table2.setBackground(borderTexture);
@@ -209,32 +242,11 @@ public class MyGdxGame extends ApplicationAdapter {
         table2.row();
         table2.add(emptyLine).width(800).height(200);
 
-//        table2.bottom().left().padBottom(150f);
-//        table2.setBackground(borderTexture);
-//        if (currentDialog.getCurrentDialog().isEndOfLine()) {
-//            int i = 1;
-//            for (PlayerResponseResult response : currentDialog.getPlayerOptions()) {
-//                Label op = new Label(i + " - " + response.getLine(), skin);
-//                table2.row();
-//                table2.add(emptyLine).width(300f);
-//                table2.add(op).expandX().center();
-//                i++;
-//            }
-//        } else {
-//            Label op = new Label("(Press space bar)", skin);
-//            table2.row();
-//            table2.add(emptyLine).width(300f);
-//            table2.add(op).expandX().center();
-//        }
-
-//        Stack stack = new Stack(table, table2);
-//        stack.setFillParent(true);
-
         table.setFillParent(true);
-//        table.setDebug(true);
         table2.setFillParent(true);
         combatStage.addActor(table);
         combatStage.addActor(table2);
+        Gdx.input.setInputProcessor(combat);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.mygdx.poupoule.event;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mygdx.poupoule.PlayerCoord;
+import com.mygdx.poupoule.SimpleCoord;
 
 public class EventDetails {
     @JsonProperty
@@ -9,7 +9,7 @@ public class EventDetails {
     @JsonProperty
     String newMap;
     @JsonProperty
-    PlayerCoord coordinates;
+    SimpleCoord coordinates;
 
     public EventType getEventType() {
         return eventType;
@@ -19,7 +19,7 @@ public class EventDetails {
         return newMap;
     }
 
-    public PlayerCoord getCoordinates() {
+    public SimpleCoord getCoordinates() {
         return coordinates;
     }
 }

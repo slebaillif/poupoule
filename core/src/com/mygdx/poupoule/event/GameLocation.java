@@ -1,15 +1,15 @@
 package com.mygdx.poupoule.event;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mygdx.poupoule.PlayerCoord;
+import com.mygdx.poupoule.SimpleCoord;
 
 public class GameLocation {
     @JsonProperty
-    PlayerCoord coordinates;
+    SimpleCoord coordinates;
     @JsonProperty
     EventDetails eventDetails;
 
-    public PlayerCoord getCoordinates() {
+    public SimpleCoord getCoordinates() {
         return coordinates;
     }
 

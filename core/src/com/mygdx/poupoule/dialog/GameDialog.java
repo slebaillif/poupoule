@@ -1,6 +1,6 @@
 package com.mygdx.poupoule.dialog;
 
-import com.mygdx.poupoule.PlayerCoord;
+import com.mygdx.poupoule.SimpleCoord;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ public interface GameDialog {
 
     public void moveToNextLine();
 
-    PlayerCoord getExitCoord();
+    SimpleCoord getExitCoord();
 
     List<PlayerResponseResult> getPlayerOptions();
 

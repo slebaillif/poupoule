@@ -11,11 +11,11 @@ import static com.badlogic.gdx.Input.Keys.*;
 public class TiledMapInputProcessor implements InputProcessor {
     private final Camera camera;
     private final TiledMap theMap;
-    private final PlayerCoord playerCoord;
+    private final SimpleCoord playerCoord;
     OrthogonalTiledMapRenderer renderer;
 
 
-    public TiledMapInputProcessor(Camera camera, TiledMap theMap, PlayerCoord coord, OrthogonalTiledMapRenderer renderer) {
+    public TiledMapInputProcessor(Camera camera, TiledMap theMap, SimpleCoord coord, OrthogonalTiledMapRenderer renderer) {
         this.camera = camera;
         this.theMap = theMap;
         this.playerCoord = coord;
