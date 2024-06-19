@@ -4,6 +4,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.mygdx.poupoule.CurrentSceneType;
 import com.mygdx.poupoule.MyGdxGame;
+import com.mygdx.poupoule.inventory.Stackable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,14 +28,10 @@ public class Combat implements InputProcessor {
             XmlMapper xmlMapper = new XmlMapper();
             InputStream stream = Combat.class.getClassLoader().getResourceAsStream(combatPath);
             CombatData d = xmlMapper.readValue(stream, CombatData.class);
-            this.setCombatData(d);
+            this.combatData = d;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public void setCombatData(CombatData combatData) {
-        this.combatData = combatData;
     }
 
     public void setHero(MainCharacter hero) {
@@ -52,6 +49,10 @@ public class Combat implements InputProcessor {
 
     public List<Monster> getMonsters() {
         return combatData.monsters;
+    }
+
+    public List<Stackable> getLoot() {
+        return combatData.loots;
     }
 
     public List<PlayerAction> getPossibleActions() {
@@ -97,7 +98,10 @@ public class Combat implements InputProcessor {
                 theGame.playerCoord.setX(combatData.exitCoordinates.getX());
                 theGame.playerCoord.setY(combatData.exitCoordinates.getY());
                 theGame.changeSceneType(CurrentSceneType.TiledMap);
-                theGame.getWorldState().addResolvedCombat(combatData.map, combatData.combatName);
+                if (allMonstersDefeated()) {
+                    theGame.getWorldState().addResolvedCombat(combatData.map, combatData.combatName);
+                    hero.inventory.add(getLoot());
+                }
             }
             if (action.targetType == singleMonster) {
                 actionMode = false;

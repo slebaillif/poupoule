@@ -3,5 +3,6 @@ package com.mygdx.poupoule;
 public enum CurrentSceneType {
     TiledMap,
     Dialog,
-    Combat
+    Combat,
+    Inventory
 }

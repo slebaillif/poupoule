@@ -25,6 +25,7 @@ import com.mygdx.poupoule.event.EventDetails;
 import com.mygdx.poupoule.event.EventType;
 import com.mygdx.poupoule.event.GameEvents;
 import com.mygdx.poupoule.event.GameLocation;
+import com.mygdx.poupoule.inventory.Stackable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,6 +61,7 @@ public class MyGdxGame extends ApplicationAdapter {
     Combat combat;
     MainCharacter hero;
     WorldState worldState = new WorldState();
+    private Stage inventoryStage;
 
     public WorldState getWorldState() {
         return worldState;
@@ -223,6 +225,10 @@ public class MyGdxGame extends ApplicationAdapter {
         if (combat.allMonstersDefeated()) {
             table.row();
             table.add(new Label("LOOT", skin)).center().colspan(2);
+            for (Stackable s : combat.getLoot()) {
+                table.row();
+                table.add(new Label(s.getName() + "(" + s.getCount() + ")", skin));
+            }
         }
 
         Table table2 = new Table();
@@ -236,6 +242,60 @@ public class MyGdxGame extends ApplicationAdapter {
         combatStage.addActor(table);
         combatStage.addActor(table2);
         Gdx.input.setInputProcessor(combat);
+    }
+
+    public void createInventoryStage() {
+        Skin skin = new Skin();
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("SKIN//uiskin.atlas"));
+        skin.addRegions(atlas);
+        skin.load(Gdx.files.internal("SKIN\\uiskin.json"));
+        Label nameLabel = new Label("INVENTORY", skin);
+        Label emptyLine = new Label("", skin);
+
+
+        dialogViewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        inventoryStage = new Stage(dialogViewport);
+
+        Pixmap pixmap = new Pixmap(64, 64, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.LIGHT_GRAY);
+        pixmap.drawRectangle(0, 0, 64, 64);
+        TextureRegionDrawable borderTexture = new TextureRegionDrawable(new Texture(pixmap));
+        pixmap.dispose();
+
+        Table table = new Table();
+        table.top().left().pad(128).padTop(256);
+        Image p = new Image(princessSprite);
+        p.scaleBy(10);
+        table.add(p).maxWidth(300).maxHeight(300).left();
+        table.row();
+        //attack
+        table.row();
+        table.add(new Label("Hit Points: " + hero.getCurrentHitPoints() + " / " + hero.getHitPoints(), skin)).left();
+        table.add(new Label("", skin)).left();
+        table.row();
+        table.add(new Label("Attack: " + hero.getAttack(), skin)).left();
+        table.add(new Label("Weapon: " + hero.getInventory().getWeapon(), skin)).left();
+        table.row();
+        table.add(new Label("Defense: " + hero.getDefense(), skin)).left();
+        table.add(new Label("Armor: " + hero.getInventory().getArmor(), skin)).left();
+
+        table.row().padTop(64);
+        table.add(new Label("Quest Items", skin)).left();
+        for (Stackable item : hero.getInventory().getQuestThings()) {
+            table.row();
+            table.add(new Label("- " + item.getName() + "(" + item.getCount() + ")", skin)).left();
+        }
+
+
+        Table table2 = new Table();
+        table2.bottom().left().padBottom(150f);
+        table2.setBackground(borderTexture);
+
+        Stack stack = new Stack(table, table2);
+        stack.setFillParent(true);
+
+        inventoryStage.addActor(stack);
+
     }
 
     @Override
@@ -284,6 +344,11 @@ public class MyGdxGame extends ApplicationAdapter {
             combatStage.act(Gdx.graphics.getDeltaTime());
             combatStage.draw();
         }
+        if (currentStageType == CurrentSceneType.Inventory) {
+            createInventoryStage();
+            inventoryStage.act(Gdx.graphics.getDeltaTime());
+            inventoryStage.draw();
+        }
     }
 
     @Override
@@ -306,7 +371,7 @@ public class MyGdxGame extends ApplicationAdapter {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 16 * (renderRatio), 16);
         renderer.setView(camera);
-        inputProcessor = new TiledMapInputProcessor(camera, currentMap, playerCoord, renderer);
+        inputProcessor = new TiledMapInputProcessor(camera, currentMap, playerCoord, renderer, this);
         Gdx.input.setInputProcessor(inputProcessor);
     }
 
@@ -346,3 +411,4 @@ public class MyGdxGame extends ApplicationAdapter {
         }
     }
 }
+

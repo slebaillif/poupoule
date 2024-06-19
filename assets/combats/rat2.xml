@@ -28,4 +28,16 @@
             <imagePath>SPRITES\ENEMIES\rat2.jpg</imagePath>
         </monster>
     </monsters>
+    <loots>
+        <loot>
+            <name>Rat's entrails</name>
+            <count>8</count>
+            <itemType>QuestItem</itemType>
+        </loot>
+        <loot>
+            <name>Gold</name>
+            <count>1</count>
+            <itemType>Consumables</itemType>
+        </loot>
+    </loots>
 </CombatData>

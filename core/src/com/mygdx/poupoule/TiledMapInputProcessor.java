@@ -7,56 +7,68 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 import static com.badlogic.gdx.Input.Keys.*;
+import static com.mygdx.poupoule.CurrentSceneType.Inventory;
 
 public class TiledMapInputProcessor implements InputProcessor {
     private final Camera camera;
     private final TiledMap theMap;
     private final SimpleCoord playerCoord;
     OrthogonalTiledMapRenderer renderer;
+    MyGdxGame game;
 
 
-    public TiledMapInputProcessor(Camera camera, TiledMap theMap, SimpleCoord coord, OrthogonalTiledMapRenderer renderer) {
+    public TiledMapInputProcessor(Camera camera, TiledMap theMap, SimpleCoord coord, OrthogonalTiledMapRenderer renderer, MyGdxGame game) {
         this.camera = camera;
         this.theMap = theMap;
         this.playerCoord = coord;
         this.renderer = renderer;
+        this.game = game;
     }
 
     public boolean keyDown(int keycode) {
         TiledMapTileLayer collisionLayer = (TiledMapTileLayer) theMap.getLayers().get("collision");
-        if (keycode == LEFT) {
-            TiledMapTileLayer.Cell collision = collisionLayer.getCell(playerCoord.x - 1, playerCoord.y);
-            if (collision == null) {
-                playerCoord.x = playerCoord.x - 1;
-                if (!renderer.getViewBounds().contains(0, playerCoord.y)) {
-                    camera.translate(-1, 0, 0);
+        if (game.currentStageType == CurrentSceneType.TiledMap) {
+            if (keycode == LEFT) {
+                TiledMapTileLayer.Cell collision = collisionLayer.getCell(playerCoord.x - 1, playerCoord.y);
+                if (collision == null) {
+                    playerCoord.x = playerCoord.x - 1;
+                    if (!renderer.getViewBounds().contains(0, playerCoord.y)) {
+                        camera.translate(-1, 0, 0);
+                    }
                 }
-            }
-        } else if (keycode == RIGHT) {
-            TiledMapTileLayer.Cell collision = collisionLayer.getCell(playerCoord.x + 1, playerCoord.y);
-            if (collision == null) {
-                playerCoord.x = playerCoord.x + 1;
-                if (!renderer.getViewBounds().contains(30, playerCoord.y)) {
-                    camera.translate(1, 0, 0);
+            } else if (keycode == RIGHT) {
+                TiledMapTileLayer.Cell collision = collisionLayer.getCell(playerCoord.x + 1, playerCoord.y);
+                if (collision == null) {
+                    playerCoord.x = playerCoord.x + 1;
+                    if (!renderer.getViewBounds().contains(30, playerCoord.y)) {
+                        camera.translate(1, 0, 0);
+                    }
                 }
-            }
-        } else if (keycode == UP) {
-            TiledMapTileLayer.Cell collision = collisionLayer.getCell(playerCoord.x, playerCoord.y + 1);
+            } else if (keycode == UP) {
+                TiledMapTileLayer.Cell collision = collisionLayer.getCell(playerCoord.x, playerCoord.y + 1);
 
-            if (collision == null) {
-                playerCoord.y = playerCoord.y + 1;
-                if (!renderer.getViewBounds().contains(playerCoord.x, 20)) {
-                    camera.translate(0, 1, 0);
+                if (collision == null) {
+                    playerCoord.y = playerCoord.y + 1;
+                    if (!renderer.getViewBounds().contains(playerCoord.x, 20)) {
+                        camera.translate(0, 1, 0);
+                    }
+                }
+            } else if (keycode == DOWN) {
+                TiledMapTileLayer.Cell collision = collisionLayer.getCell(playerCoord.x, playerCoord.y - 1);
+
+                if (collision == null) {
+                    playerCoord.y = playerCoord.y - 1;
+                    if (!renderer.getViewBounds().contains(playerCoord.x, 0)) {
+                        camera.translate(0, -1, 0);
+                    }
                 }
             }
-        } else if (keycode == DOWN) {
-            TiledMapTileLayer.Cell collision = collisionLayer.getCell(playerCoord.x, playerCoord.y - 1);
-
-            if (collision == null) {
-                playerCoord.y = playerCoord.y - 1;
-                if (!renderer.getViewBounds().contains(playerCoord.x, 0)) {
-                    camera.translate(0, -1, 0);
-                }
+        }
+        if (keycode == I) {
+            if (game.currentStageType != Inventory) {
+                game.changeSceneType(Inventory);
+            } else {
+                game.changeSceneType(CurrentSceneType.TiledMap);
             }
         }
         return true;

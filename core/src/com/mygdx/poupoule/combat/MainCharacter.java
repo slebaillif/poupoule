@@ -1,11 +1,14 @@
 package com.mygdx.poupoule.combat;
 
+import com.mygdx.poupoule.inventory.Inventory;
+
 public class MainCharacter {
     String name;
     Integer attack;
     Integer defense;
     Integer hitPoints;
     Integer currentHitPoints;
+    Inventory inventory;
 
     public MainCharacter(String name, Integer attack, Integer defense, Integer hitPoints) {
         this.name = name;
@@ -13,6 +16,7 @@ public class MainCharacter {
         this.defense = defense;
         this.hitPoints = hitPoints;
         this.currentHitPoints = hitPoints;
+        this.inventory = new Inventory("Stick", "None");
     }
 
     public void isHit(Integer damage) {
@@ -37,5 +41,9 @@ public class MainCharacter {
 
     public Integer getCurrentHitPoints() {
         return currentHitPoints;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 }
