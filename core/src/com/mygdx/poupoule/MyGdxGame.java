@@ -89,22 +89,24 @@ public class MyGdxGame extends ApplicationAdapter {
         renderer = new OrthogonalTiledMapRenderer(currentMap, unitScale);
 
         princessSprite = new Sprite(princess);
-
-        Monster ratA = new Monster("Rat A", "Giant Rat", 8, 0, 1, "Bites", "SPRITES\\ENEMIES\\rat2.jpg");
-        Monster ratB = new Monster("Rat B", "Giant Rat", 7, 0, 1, "Bites", "SPRITES\\ENEMIES\\rat2.jpg");
         this.combat = new Combat();
-        combat.addMonsters(Arrays.asList(ratA, ratB));
+        try {
+            XmlMapper xmlMapper = new XmlMapper();
+            InputStream stream = Combat.class.getClassLoader().getResourceAsStream("combats\\combat.xml");
+            CombatData d = xmlMapper.readValue(stream, CombatData.class);
+            this.combat.setCombatData(d);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
 
         hero = new MainCharacter("PrinSeSS", 3, 0, 15);
         PlayerAction attack = new PlayerAction("Attack", singleMonster, new DamageEffect(3));
         PlayerAction leave = new ExitAction("Leave combat", singleHero, null);
         combat.addActions(Arrays.asList(attack, leave));
-        combat.setDisplay("Two rats appear!");
         combat.setHero(hero);
         combat.setTheGame(this);
-        combat.setExitCoordinates(new SimpleCoord(14, 7));
-        combat.setMap("guild");
-        combat.setCombatName("rat");
 
 
     }

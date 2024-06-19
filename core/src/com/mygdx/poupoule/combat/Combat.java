@@ -1,6 +1,7 @@
 package com.mygdx.poupoule.combat;
 
 import com.badlogic.gdx.InputProcessor;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mygdx.poupoule.CurrentSceneType;
 import com.mygdx.poupoule.MyGdxGame;
 import com.mygdx.poupoule.SimpleCoord;
@@ -13,20 +14,15 @@ import static com.badlogic.gdx.Input.Keys.*;
 import static com.mygdx.poupoule.combat.TargetType.singleMonster;
 
 public class Combat implements InputProcessor {
-    MyGdxGame theGame;
-    SimpleCoord exitCoordinates;
-    MainCharacter hero;
-    List<Monster> monsters = new ArrayList<>();
+    CombatData combatData;
     List<PlayerAction> possibleActions = new ArrayList<>();
-    String map;
-    String combatName;
-
+    MyGdxGame theGame;
     boolean actionMode = true; // false means select target
     PlayerAction slectedAction = null;
-    String display = "";
+    MainCharacter hero;
 
-    public void addMonsters(List<Monster> m) {
-        monsters.addAll(m);
+    public void setCombatData(CombatData combatData) {
+        this.combatData = combatData;
     }
 
     public void setHero(MainCharacter hero) {
@@ -37,24 +33,13 @@ public class Combat implements InputProcessor {
         this.theGame = theGame;
     }
 
-    public void setExitCoordinates(SimpleCoord exitCoordinates) {
-        this.exitCoordinates = exitCoordinates;
-    }
-
-    public void setMap(String map) {
-        this.map = map;
-    }
-
-    public void setCombatName(String combatName) {
-        this.combatName = combatName;
-    }
 
     public void addActions(List<PlayerAction> m) {
         possibleActions.addAll(m);
     }
 
     public List<Monster> getMonsters() {
-        return monsters;
+        return combatData.monsters;
     }
 
     public List<PlayerAction> getPossibleActions() {
@@ -64,7 +49,7 @@ public class Combat implements InputProcessor {
             return possibleActions;
         } else {
             List<PlayerAction> result = new ArrayList<>();
-            List<Monster> aliveMonsters = monsters.stream().filter(m -> m.isAlive() == true).collect(Collectors.toList());
+            List<Monster> aliveMonsters = combatData.monsters.stream().filter(m -> m.isAlive() == true).collect(Collectors.toList());
             for (Monster m : aliveMonsters) {
                 result.add(new PlayerAction("Target " + m.getName(), singleMonster, new DamageEffect(1)));
             }
@@ -73,7 +58,7 @@ public class Combat implements InputProcessor {
     }
 
     public boolean allMonstersDefeated() {
-        List<Monster> aliveMonsters = monsters.stream().filter(m -> m.isAlive() == true).collect(Collectors.toList());
+        List<Monster> aliveMonsters = combatData.monsters.stream().filter(m -> m.isAlive() == true).collect(Collectors.toList());
         return aliveMonsters.isEmpty();
     }
 
@@ -97,27 +82,27 @@ public class Combat implements InputProcessor {
             PlayerAction action = getPossibleActions().get(selected);
             this.slectedAction = action;
             if (this.slectedAction instanceof ExitAction) {
-                theGame.playerCoord.setX(exitCoordinates.getX());
-                theGame.playerCoord.setY(exitCoordinates.getY());
+                theGame.playerCoord.setX(combatData.exitCoordinates.getX());
+                theGame.playerCoord.setY(combatData.exitCoordinates.getY());
                 theGame.changeSceneType(CurrentSceneType.TiledMap);
-                theGame.getWorldState().addResolvedCombat(map, combatName);
+                theGame.getWorldState().addResolvedCombat(combatData.map, combatData.combatName);
             }
             if (action.targetType == singleMonster) {
                 actionMode = false;
             }
 
         } else {
-            List<Monster> aliveMonsters = monsters.stream().filter(m -> m.isAlive() == true).collect(Collectors.toList());
+            List<Monster> aliveMonsters = combatData.monsters.stream().filter(m -> m.isAlive() == true).collect(Collectors.toList());
             if (selected >= aliveMonsters.size()) {
                 return false;
             }
             // select target, resolve action
             Monster target = aliveMonsters.get(selected);
-            this.display = this.slectedAction.getEffect().execute(target);
+            combatData.display = this.slectedAction.getEffect().execute(target);
 
             for (Monster m : aliveMonsters) {
                 hero.isHit(m.attack);
-                this.display = m.getName() + " " + m.getAttackName() + " for " + m.attack + " damage.";
+                combatData.display = m.getName() + " " + m.getAttackName() + " for " + m.attack + " damage.";
             }
             actionMode = true;
         }
@@ -125,12 +110,9 @@ public class Combat implements InputProcessor {
     }
 
     public String getDisplay() {
-        return display;
+        return combatData.display;
     }
 
-    public void setDisplay(String display) {
-        this.display = display;
-    }
 
     @Override
     public boolean keyUp(int i) {

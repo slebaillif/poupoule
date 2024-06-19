@@ -2,30 +2,29 @@ package com.mygdx.poupoule.combat;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Monster {
+    @JsonProperty
     String name;
+    @JsonProperty
     String type;
+    @JsonProperty
     Integer hitPoints;
+    @JsonProperty
     Integer defense;
+    @JsonProperty
     Integer attack;
+    @JsonProperty
     String attackName;
-
-    Integer currentHitPoints;
+    @JsonProperty
     String imagePath;
+    @JsonProperty
+    Integer currentHitPoints;
+
     Image monsterImage;
 
-    public Monster(String name, String type, Integer hitPoints, Integer defense, Integer attack, String attackName, String imagePath) {
-        this.name = name;
-        this.type = type;
-        this.hitPoints = hitPoints;
-        this.defense = defense;
-        this.attack = attack;
-        this.attackName = attackName;
-        this.currentHitPoints = hitPoints;
-        this.imagePath = imagePath;
-        this.monsterImage = new Image(new Texture(imagePath));
-
+    public Monster() {
     }
 
     public void isHit(Integer damage) {
@@ -37,6 +36,9 @@ public class Monster {
     }
 
     public Image getMonsterImage() {
+        if (monsterImage == null) {
+            this.monsterImage = new Image(new Texture(imagePath));
+        }
         return monsterImage;
     }
 
@@ -67,4 +69,5 @@ public class Monster {
     public String getAttackName() {
         return attackName;
     }
+
 }
