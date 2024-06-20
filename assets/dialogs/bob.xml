@@ -71,6 +71,7 @@ bring me their entrails."</line>
                     <nextExchange>end</nextExchange>
                 </response>
             </playerResponses>
+            <giveMission>ratsForBob</giveMission>
         </exchange>
     </exchanges>
 </DialogData>

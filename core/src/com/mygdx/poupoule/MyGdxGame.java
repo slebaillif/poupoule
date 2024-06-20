@@ -20,12 +20,14 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.mygdx.poupoule.combat.*;
 import com.mygdx.poupoule.dialog.BaseDialog;
 import com.mygdx.poupoule.dialog.DialogInputProcessor;
+import com.mygdx.poupoule.dialog.DialogLine;
 import com.mygdx.poupoule.dialog.PlayerResponseResult;
 import com.mygdx.poupoule.event.EventDetails;
 import com.mygdx.poupoule.event.EventType;
 import com.mygdx.poupoule.event.GameEvents;
 import com.mygdx.poupoule.event.GameLocation;
 import com.mygdx.poupoule.inventory.Stackable;
+import com.mygdx.poupoule.quest.QuestData;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -112,15 +114,30 @@ public class MyGdxGame extends ApplicationAdapter {
         return new Combat("combats\\" + name + ".xml");
     }
 
+    QuestData loadQuestData(String questName) {
+        XmlMapper xmlMapper = new XmlMapper();
+        InputStream stream = Combat.class.getClassLoader().getResourceAsStream("events\\" + questName + ".xml");
+        try {
+            return xmlMapper.readValue(stream, QuestData.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void createDialogStage() {
         Skin skin = new Skin();
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("SKIN//uiskin.atlas"));
         skin.addRegions(atlas);
         skin.load(Gdx.files.internal("SKIN\\uiskin.json"));
         Label nameLabel = new Label(currentDialog.getData().getTitle(), skin);
-        Label dialogLine = new Label(currentDialog.getCurrentDialog().getLine(), skin);
+        DialogLine currentDialog1 = currentDialog.getCurrentDialog();
+        Label dialogLine = new Label(currentDialog1.getLine(), skin);
         Label emptyLine = new Label("", skin);
 
+        if (currentDialog1.getGiveMission() != null && !worldState.isQuestActive(currentDialog1.getGiveMission())) {
+            QuestData questData = loadQuestData(currentDialog1.getGiveMission());
+            worldState.addQuest(currentDialog1.getGiveMission(), questData);
+        }
 
         dialogViewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         dialogStage = new Stage(dialogViewport);
@@ -144,7 +161,7 @@ public class MyGdxGame extends ApplicationAdapter {
         Table table2 = new Table();
         table2.bottom().left().padBottom(150f);
         table2.setBackground(borderTexture);
-        if (currentDialog.getCurrentDialog().isEndOfLine()) {
+        if (currentDialog1.isEndOfLine()) {
             int i = 1;
             for (PlayerResponseResult response : currentDialog.getPlayerOptions()) {
                 Label op = new Label(i + " - " + response.getLine(), skin);

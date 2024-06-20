@@ -11,4 +11,8 @@ public class Exchange {
     List<String> npcSpeech;
     @JsonProperty
     List<PlayerResponseResult> playerResponses;
+    @JsonProperty
+    String giveMission;
+    @JsonProperty
+    String checkMission;
 }

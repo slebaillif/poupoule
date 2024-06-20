@@ -1,0 +1,10 @@
+<QuestData>
+    <missionName>ratsForBob</missionName>
+    <fullFillConditions>
+        <condition>
+            <item>Rat's entrails</item>
+            <quantity>10</quantity>
+        </condition>
+    </fullFillConditions>
+    <reward>Guild membership</reward>
+</QuestData>

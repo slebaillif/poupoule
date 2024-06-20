@@ -23,7 +23,7 @@ public class BaseDialog implements GameDialog {
     public DialogLine getCurrentDialog() {
         boolean endOfLine = lineIndex == data.getExchange(currentDialog).npcSpeech.size() - 1;
         boolean endOfDialog = getPlayerOptions().get(0).nextExchange.equalsIgnoreCase("end");
-        return new DialogLine(data.getExchange(currentDialog).npcSpeech.get(lineIndex), endOfLine, endOfDialog);
+        return new DialogLine(data.getExchange(currentDialog).npcSpeech.get(lineIndex), endOfLine, endOfDialog, data.getExchange(currentDialog).giveMission);
     }
 
     @Override
