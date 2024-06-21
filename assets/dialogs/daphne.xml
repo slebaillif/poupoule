@@ -58,12 +58,49 @@
         <exchange>
             <name>register</name>
             <npcSpeech>
-                <line>"Just be careful out there ."</line>
+                <line>"Just be careful out there."</line>
             </npcSpeech>
             <playerResponses>
                 <response>
-                    <line>"we will."</line>
+                    <line>"What services do you offer ?</line>
+                    <nextExchange>services</nextExchange>
+                </response>
+                <response>
+                    <line>"We will." (Leave)</line>
                     <nextExchange>end</nextExchange>
+                </response>
+            </playerResponses>
+        </exchange>
+        <exchange>
+            <name>services</name>
+            <npcSpeech>
+                <line>"Healing 101."</line>
+            </npcSpeech>
+            <playerResponses>
+                <response>
+                    <line>Full heal - 3 Gold</line>
+                    <nextExchange>healed</nextExchange>
+                    <effect><name>fullHeal</name></effect>
+                    <cost>
+                        <name>Gold</name>
+                        <count>3</count>
+                    </cost>
+                </response>
+                <response>
+                    <line>"Thanks!</line>
+                    <nextExchange>register</nextExchange>
+                </response>
+            </playerResponses>
+        </exchange>
+        <exchange>
+            <name>healed</name>
+            <npcSpeech>
+                <line>"Here you go, all patched up."</line>
+            </npcSpeech>
+            <playerResponses>
+                <response>
+                    <line>"Thanks."</line>
+                    <nextExchange>register</nextExchange>
                 </response>
             </playerResponses>
         </exchange>

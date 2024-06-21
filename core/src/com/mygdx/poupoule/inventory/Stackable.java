@@ -20,7 +20,7 @@ public class Stackable {
     }
 
     public Stackable add(Stackable second) {
-        if (!this.name.equals(second.name)){
+        if (!this.name.equals(second.name)) {
             throw new IllegalArgumentException("adding different items.");
         }
         return new Stackable(this.name, this.itemType, this.getCount() + second.getCount());
@@ -44,5 +44,18 @@ public class Stackable {
 
     public void removeItem() {
         this.count--;
+    }
+
+    public Stackable substract(Stackable cost) {
+        if (!this.name.equals(cost.name)) {
+            throw new IllegalArgumentException("substracting different items.");
+        }
+        int count1 = this.getCount() - cost.getCount();
+        if (count1 >= 0) {
+
+            return new Stackable(this.name, this.itemType, count1);
+        } else {
+            throw new IllegalArgumentException("Substract result lower than 0.");
+        }
     }
 }

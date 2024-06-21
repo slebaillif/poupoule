@@ -61,7 +61,7 @@ public class MyGdxGame extends ApplicationAdapter {
     public CurrentSceneType currentStageType = CurrentSceneType.TiledMap;
     HashMap<String, Sprite> npcSprites = new HashMap<>(10);
     Combat combat;
-    MainCharacter hero;
+    public MainCharacter hero;
     WorldState worldState = new WorldState();
     private Stage inventoryStage;
 
@@ -92,6 +92,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         renderer = new OrthogonalTiledMapRenderer(currentMap, unitScale);
         hero = new MainCharacter("PrinSeSS", 3, 0, 15);
+        hero.isHit(5);
         princessSprite = new Sprite(princess);
     }
 
@@ -164,7 +165,13 @@ public class MyGdxGame extends ApplicationAdapter {
         if (currentDialog1.isEndOfLine()) {
             int i = 1;
             for (PlayerResponseResult response : currentDialog.getPlayerOptions()) {
-                Label op = new Label(i + " - " + response.getLine(), skin);
+                String canAfford = "";
+                if (response.getCost() != null) {
+                    if (!hero.getInventory().canAfford(response.getCost())) {
+                        canAfford = " (Cannot afford)";
+                    }
+                }
+                Label op = new Label(i + " - " + response.getLine()+canAfford, skin);
                 table2.row();
                 table2.add(emptyLine).width(300f);
                 table2.add(op).expandX().center();

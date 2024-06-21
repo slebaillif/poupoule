@@ -12,4 +12,10 @@ public class DamageEffect extends ActionEffect {
         m.isHit(this.damage);
         return "" + m.getName() + " was hit for " + damage + " damage.";
     }
+
+    @Override
+    public String execute(MainCharacter m) {
+        m.isHit(this.damage);
+        return "Hero"+ " was hit for " + damage + " damage.";
+    }
 }

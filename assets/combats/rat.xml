@@ -36,7 +36,7 @@
         </loot>
         <loot>
             <name>Gold</name>
-            <count>1</count>
+            <count>3</count>
             <itemType>Consumables</itemType>
         </loot>
     </loots>

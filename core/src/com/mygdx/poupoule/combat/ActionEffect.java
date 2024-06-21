@@ -1,7 +1,6 @@
 package com.mygdx.poupoule.combat;
 
 public abstract class ActionEffect {
-    public String execute(Monster m) {
-        return "";
-    }
+    public abstract String execute(Monster m) ;
+    public abstract String execute(MainCharacter m) ;
 }

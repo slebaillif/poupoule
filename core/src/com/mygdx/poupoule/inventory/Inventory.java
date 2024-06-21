@@ -27,6 +27,14 @@ public class Inventory {
         }
     }
 
+    public void remove(Stackable cost) {
+        Stackable current = questThings.get(cost.name);
+        if (current != null) {
+            Stackable removed = current.substract(cost);
+            questThings.put(removed.name, removed);
+        }
+    }
+
     public String getWeapon() {
         return weapon;
     }
@@ -37,5 +45,14 @@ public class Inventory {
 
     public Collection<Stackable> getQuestThings() {
         return questThings.values();
+    }
+
+    public boolean canAfford(Stackable s) {
+        Stackable t = questThings.get(s.getName());
+        if (t != null) {
+            return t.count >= t.getCount();
+        } else {
+            return false;
+        }
     }
 }

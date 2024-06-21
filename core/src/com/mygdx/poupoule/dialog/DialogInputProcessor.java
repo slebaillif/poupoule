@@ -1,10 +1,8 @@
 package com.mygdx.poupoule.dialog;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.mygdx.poupoule.CurrentSceneType;
 import com.mygdx.poupoule.MyGdxGame;
-import com.mygdx.poupoule.TiledMapInputProcessor;
 
 import static com.badlogic.gdx.Input.Keys.*;
 
@@ -53,11 +51,23 @@ public class DialogInputProcessor implements InputProcessor {
 
     private void selectPlayerResponse(int lineSelected) {
         if (lineSelected > 0 && currentDialog.getPlayerOptions().size() >= lineSelected) {
-            if (currentDialog.getPlayerOptions().get(lineSelected - 1).nextExchange.equalsIgnoreCase("end")) {
+            PlayerResponseResult playerResponseResult = currentDialog.getPlayerOptions().get(lineSelected - 1);
+            if (playerResponseResult.nextExchange.equalsIgnoreCase("end")) {
                 exitToMap();
             } else {
-                String newDialog = currentDialog.getPlayerOptions().get(lineSelected - 1).nextExchange;
-                currentDialog.setCurrentDialog(newDialog);
+                if (playerResponseResult.effect != null) {
+                    if (playerResponseResult.cost != null) {
+                        if (theGame.hero.getInventory().canAfford(playerResponseResult.cost)) {
+                            theGame.hero.getInventory().remove(playerResponseResult.cost);
+                            playerResponseResult.effect.execute(theGame.hero);
+                        } else {
+                            return;
+                        }
+                    } else {
+                        playerResponseResult.effect.execute(theGame.hero);
+                    }
+                }
+                currentDialog.setCurrentDialog(playerResponseResult.nextExchange);
             }
         } else {
             // do nothing
