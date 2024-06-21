@@ -1,0 +1,44 @@
+<DialogData>
+    <npc>
+        Merchant
+    </npc>
+    <title>"Dude, Shopkeeper"</title>
+    <portrait>daphne.GIF</portrait>
+    <startingPoint>firstMeeting</startingPoint>
+    <exit>
+        <x>10</x>
+        <y>9</y>
+    </exit>
+    <exchanges>
+        <exchange>
+            <name>firstMeeting</name>
+            <npcSpeech>
+                <line>"Please buy any of my fine wares."</line>
+            </npcSpeech>
+            <playerResponses>
+                <response>
+                    <line>Dagger - 3 Gold</line>
+                    <nextExchange>purchase</nextExchange>
+                    <effect><name>dagger</name></effect>
+                    <cost>
+                        <name>Gold</name>
+                        <count>3</count>
+                    </cost>
+                </response>
+                <response>
+                    <line>Sword - 9 Gold</line>
+                    <nextExchange>purchase</nextExchange>
+                    <effect><name>sword</name></effect>
+                    <cost>
+                        <name>Gold</name>
+                        <count>3</count>
+                    </cost>
+                </response>
+
+            </playerResponses>
+        </exchange>
+
+
+
+    </exchanges>
+</DialogData>

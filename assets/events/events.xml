@@ -6,6 +6,22 @@
             <locations>
                 <location>
                     <coordinates>
+                        <x>21</x>
+                        <y>8</y>
+                    </coordinates>
+                    <eventDetails>
+                        <eventType>
+                            changeMap
+                        </eventType>
+                        <newMap>shop</newMap>
+                        <coordinates>
+                            <x>10</x>
+                            <y>1</y>
+                        </coordinates>
+                    </eventDetails>
+                </location>
+                <location>
+                    <coordinates>
                         <x>15</x>
                         <y>13</y>
                     </coordinates>
@@ -240,6 +256,92 @@
                         <coordinates>
                             <x>8</x>
                             <y>12</y>
+                        </coordinates>
+                    </eventDetails>
+                </location>
+            </locations>
+        </map>
+        <map>
+            <name>shop</name>
+            <tileFile>shop.tmx</tileFile>
+            <locations>
+                <location>
+                    <coordinates>
+                        <x>9</x>
+                        <y>0</y>
+                    </coordinates>
+                    <eventDetails>
+                        <eventType>
+                            changeMap
+                        </eventType>
+                        <newMap>village</newMap>
+                        <coordinates>
+                            <x>20</x>
+                            <y>8</y>
+                        </coordinates>
+                    </eventDetails>
+                </location>
+                <location>
+                    <coordinates>
+                        <x>10</x>
+                        <y>0</y>
+                    </coordinates>
+                    <eventDetails>
+                        <eventType>
+                            changeMap
+                        </eventType>
+                        <newMap>village</newMap>
+                        <coordinates>
+                            <x>20</x>
+                            <y>8</y>
+                        </coordinates>
+                    </eventDetails>
+                </location>
+                <location>
+                    <coordinates>
+                        <x>11</x>
+                        <y>0</y>
+                    </coordinates>
+                    <eventDetails>
+                        <eventType>
+                            changeMap
+                        </eventType>
+                        <newMap>village</newMap>
+                        <coordinates>
+                            <x>20</x>
+                            <y>8</y>
+                        </coordinates>
+                    </eventDetails>
+                </location>
+                <location>
+                    <coordinates>
+                        <x>10</x>
+                        <y>10</y>
+                    </coordinates>
+                    <eventDetails>
+                        <eventType>
+                            dialog
+                        </eventType>
+                        <newMap>merchant</newMap>
+                        <coordinates>
+                            <x>10</x>
+                            <y>9</y>
+                        </coordinates>
+                    </eventDetails>
+                </location>
+                <location>
+                    <coordinates>
+                        <x>10</x>
+                        <y>12</y>
+                    </coordinates>
+                    <eventDetails>
+                        <eventType>
+                            npc
+                        </eventType>
+                        <newMap>bob</newMap>
+                        <coordinates>
+                            <x>10</x>
+                            <y>9</y>
                         </coordinates>
                     </eventDetails>
                 </location>
