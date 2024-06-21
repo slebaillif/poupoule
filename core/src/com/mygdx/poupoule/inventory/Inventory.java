@@ -1,12 +1,14 @@
 package com.mygdx.poupoule.inventory;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Inventory {
     String weapon;
     String armor;
-    List<Stackable> questThings = new ArrayList<>();
+    Map<String, Stackable> questThings = new HashMap<>();
 
     public Inventory(String weapon, String armor) {
         this.weapon = weapon;
@@ -14,7 +16,15 @@ public class Inventory {
     }
 
     public void add(List<Stackable> loot) {
-        questThings.addAll(loot);
+        for (Stackable s : loot) {
+            Stackable current = questThings.get(s.name);
+            if (current == null) {
+                questThings.put(s.name, s);
+            } else {
+                Stackable added = current.add(s);
+                questThings.put(added.name, added);
+            }
+        }
     }
 
     public String getWeapon() {
@@ -25,7 +35,7 @@ public class Inventory {
         return armor;
     }
 
-    public List<Stackable> getQuestThings() {
-        return questThings;
+    public Collection<Stackable> getQuestThings() {
+        return questThings.values();
     }
 }

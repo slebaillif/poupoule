@@ -16,7 +16,7 @@
                 <line>"Hello dear, my name is Daphne."</line>
                 <line>"I'm the resident healer."</line>
                 <line>
-"I'd like to be friendly, but you must follow one rule..."
+                    "I'd like to be friendly, but you must follow one rule..."
                 </line>
                 <line>"I don't tolerate any rude comments to, or from, anyone."</line>
             </npcSpeech>
@@ -46,9 +46,7 @@
         <exchange>
             <name>notInGuild</name>
             <npcSpeech>
-                <line>
-"See you soon!."
-                </line>
+                <line>"See you soon!."</line>
             </npcSpeech>
             <playerResponses>
                 <response>

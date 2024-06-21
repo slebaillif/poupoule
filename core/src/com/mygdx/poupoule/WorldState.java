@@ -28,4 +28,12 @@ public class WorldState {
     public boolean isQuestActive(String missionName) {
         return activeQuests.get(missionName) != null;
     }
+
+    public void completeQuest(String name){
+        QuestData active = activeQuests.get(name);
+        if(active != null){
+            activeQuests.remove(name);
+            completedQuests.put(name, active);
+        }
+    }
 }

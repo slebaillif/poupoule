@@ -73,5 +73,21 @@ bring me their entrails."</line>
             </playerResponses>
             <giveMission>ratsForBob</giveMission>
         </exchange>
+        <exchange>
+            <name>ratsMissionComplete</name>
+            <checkMission>ratsForBob</checkMission>
+            <npcSpeech>
+                <line>"Oh, well done, you brought me lots of rat entrails.
+                    You can keep them."</line>
+                <line>"As promised, here is the Guild Membership."</line>
+                <line>Use it wisely.</line>
+            </npcSpeech>
+            <playerResponses>
+                <response>
+                    <line>"Thanks, but what do I do with all these ?"</line>
+                    <nextExchange>end</nextExchange>
+                </response>
+            </playerResponses>
+        </exchange>
     </exchanges>
 </DialogData>

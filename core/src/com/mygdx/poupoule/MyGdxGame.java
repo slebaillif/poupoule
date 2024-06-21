@@ -107,7 +107,7 @@ public class MyGdxGame extends ApplicationAdapter {
     }
 
     BaseDialog loadDialog(String name) throws IOException {
-        return new BaseDialog("dialogs\\" + name + ".xml");
+        return new BaseDialog("dialogs\\" + name + ".xml", hero, worldState);
     }
 
     Combat loadCombat(String name) throws IOException {
@@ -301,6 +301,13 @@ public class MyGdxGame extends ApplicationAdapter {
         for (Stackable item : hero.getInventory().getQuestThings()) {
             table.row();
             table.add(new Label("- " + item.getName() + "(" + item.getCount() + ")", skin)).left();
+        }
+
+        table.row().padTop(64);
+        table.add(new Label("Quest(s)", skin)).left();
+        for (QuestData item : worldState.activeQuests.values()) {
+            table.row();
+            table.add(new Label("- " + item.getMissionName(), skin)).left();
         }
 
 

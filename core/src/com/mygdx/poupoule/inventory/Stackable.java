@@ -13,9 +13,17 @@ public class Stackable {
     public Stackable() {
     }
 
-    public Stackable(String name, ItemType itemType) {
+    public Stackable(String name, ItemType itemType, int count) {
         this.name = name;
         this.itemType = itemType;
+        this.count = count;
+    }
+
+    public Stackable add(Stackable second) {
+        if (!this.name.equals(second.name)){
+            throw new IllegalArgumentException("adding different items.");
+        }
+        return new Stackable(this.name, this.itemType, this.getCount() + second.getCount());
     }
 
     public String getName() {
