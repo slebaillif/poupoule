@@ -29,6 +29,8 @@ public class SplashScreen implements InputProcessor {
 
         Table table = new Table();
         table.top().center();
+        table.add( new Label("PROJET POUPOULE", skin)).expandX().center();
+        table.row();
         table.add( new Label("Press Space bar", skin)).expandX().center();
         table.row();
         Stack stack = new Stack(table);

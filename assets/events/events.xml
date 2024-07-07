@@ -15,7 +15,7 @@
                         </eventType>
                         <newMap>shop</newMap>
                         <coordinates>
-                            <x>10</x>
+                            <x>7</x>
                             <y>1</y>
                         </coordinates>
                     </eventDetails>
@@ -267,7 +267,7 @@
             <locations>
                 <location>
                     <coordinates>
-                        <x>9</x>
+                        <x>6</x>
                         <y>0</y>
                     </coordinates>
                     <eventDetails>
@@ -283,7 +283,7 @@
                 </location>
                 <location>
                     <coordinates>
-                        <x>10</x>
+                        <x>7</x>
                         <y>0</y>
                     </coordinates>
                     <eventDetails>
@@ -299,7 +299,7 @@
                 </location>
                 <location>
                     <coordinates>
-                        <x>11</x>
+                        <x>8</x>
                         <y>0</y>
                     </coordinates>
                     <eventDetails>
@@ -315,8 +315,8 @@
                 </location>
                 <location>
                     <coordinates>
-                        <x>10</x>
-                        <y>10</y>
+                        <x>7</x>
+                        <y>8</y>
                     </coordinates>
                     <eventDetails>
                         <eventType>
@@ -324,15 +324,15 @@
                         </eventType>
                         <newMap>merchant</newMap>
                         <coordinates>
-                            <x>10</x>
-                            <y>9</y>
+                            <x>7</x>
+                            <y>7</y>
                         </coordinates>
                     </eventDetails>
                 </location>
                 <location>
                     <coordinates>
-                        <x>10</x>
-                        <y>12</y>
+                        <x>7</x>
+                        <y>10</y>
                     </coordinates>
                     <eventDetails>
                         <eventType>

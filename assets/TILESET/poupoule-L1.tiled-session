@@ -32,8 +32,8 @@
             "scale": 2.1216666666666666,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 117.36056559308719,
-                "y": 120.42419481539673
+                "x": 112.6472898664572,
+                "y": 172.5058915946583
             }
         },
         "shop.tmx": {
@@ -56,17 +56,17 @@
             "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 228.5,
-                "y": 157.75
+                "x": 218,
+                "y": 213.5
             }
         }
     },
     "last.imagePath": "C:/Users/Sebastien/sebastienlebaillif/Workspace/poupoule/assets/TILESET/modern-interiors-tileset-for-rpgs/32px+VXACE",
-    "map.height": 20,
+    "map.height": 15,
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
-    "map.width": 20,
+    "map.width": 15,
     "openFiles": [
         "village.tmx",
         "healer.tmx",

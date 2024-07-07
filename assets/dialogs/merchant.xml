@@ -6,8 +6,8 @@
     <portrait>daphne.GIF</portrait>
     <startingPoint>firstMeeting</startingPoint>
     <exit>
-        <x>10</x>
-        <y>9</y>
+        <x>7</x>
+        <y>7</y>
     </exit>
     <exchanges>
         <exchange>
