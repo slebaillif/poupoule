@@ -4,5 +4,6 @@ public enum CurrentSceneType {
     TiledMap,
     Dialog,
     Combat,
-    Inventory
+    Inventory,
+    SplashScreen
 }

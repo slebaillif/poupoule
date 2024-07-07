@@ -28,6 +28,7 @@ import com.mygdx.poupoule.event.GameEvents;
 import com.mygdx.poupoule.event.GameLocation;
 import com.mygdx.poupoule.inventory.Stackable;
 import com.mygdx.poupoule.quest.QuestData;
+import com.mygdx.poupoule.splash.SplashScreen;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,12 +59,15 @@ public class MyGdxGame extends ApplicationAdapter {
     GameEvents gameMap;
     Map<String, BaseDialog> loadedDialogs = new HashMap<>();
 
-    public CurrentSceneType currentStageType = CurrentSceneType.TiledMap;
+    public CurrentSceneType currentStageType = CurrentSceneType.SplashScreen;
     HashMap<String, Sprite> npcSprites = new HashMap<>(10);
     Combat combat;
     public MainCharacter hero;
     WorldState worldState = new WorldState();
     private Stage inventoryStage;
+    public Skin skin;
+    public Pixmap pixmap;
+    Stage splashScreenStage;
 
     public WorldState getWorldState() {
         return worldState;
@@ -80,6 +84,15 @@ public class MyGdxGame extends ApplicationAdapter {
             throw new RuntimeException(e);
         }
 
+        skin = new Skin();
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("SKIN//uiskin.atlas"));
+        skin.addRegions(atlas);
+        skin.load(Gdx.files.internal("SKIN\\uiskin.json"));
+
+        pixmap = new Pixmap(64, 64, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.LIGHT_GRAY);
+        pixmap.drawRectangle(0, 0, 64, 64);
+
         String fileName = gameMap.getMapFileName(currentMapName);
         currentMap = loadTileMap(fileName);
 
@@ -94,11 +107,13 @@ public class MyGdxGame extends ApplicationAdapter {
         hero = new MainCharacter("PrinSeSS", 3, 0, 15);
         hero.isHit(5);
         princessSprite = new Sprite(princess);
+
+        splashScreenStage = new SplashScreen(skin, this, getForcedWidth(), getForcedHeight()).createStage();
     }
 
     public void changeSceneType(CurrentSceneType sceneType) {
         if (sceneType == CurrentSceneType.TiledMap) {
-            screenForMap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            screenForMap(getForcedWidth(), getForcedHeight());
         }
         this.currentStageType = sceneType;
     }
@@ -125,11 +140,15 @@ public class MyGdxGame extends ApplicationAdapter {
         }
     }
 
+    float getForcedWidth() {
+        return 1280;
+    }
+
+    float getForcedHeight() {
+        return 720;
+    }
+
     public void createDialogStage() {
-        Skin skin = new Skin();
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("SKIN//uiskin.atlas"));
-        skin.addRegions(atlas);
-        skin.load(Gdx.files.internal("SKIN\\uiskin.json"));
         Label nameLabel = new Label(currentDialog.getData().getTitle(), skin);
         DialogLine currentDialog1 = currentDialog.getCurrentDialog();
         Label dialogLine = new Label(currentDialog1.getLine(), skin);
@@ -140,14 +159,10 @@ public class MyGdxGame extends ApplicationAdapter {
             worldState.addQuest(currentDialog1.getGiveMission(), questData);
         }
 
-        dialogViewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        dialogViewport = new FitViewport(getForcedWidth(), getForcedHeight());
         dialogStage = new Stage(dialogViewport);
 
-        Pixmap pixmap = new Pixmap(64, 64, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.LIGHT_GRAY);
-        pixmap.drawRectangle(0, 0, 64, 64);
         TextureRegionDrawable borderTexture = new TextureRegionDrawable(new Texture(pixmap));
-        pixmap.dispose();
 
         Table table = new Table();
         table.top().left();
@@ -171,7 +186,7 @@ public class MyGdxGame extends ApplicationAdapter {
                         canAfford = " (Cannot afford)";
                     }
                 }
-                Label op = new Label(i + " - " + response.getLine()+canAfford, skin);
+                Label op = new Label(i + " - " + response.getLine() + canAfford, skin);
                 table2.row();
                 table2.add(emptyLine).width(300f);
                 table2.add(op).expandX().center();
@@ -192,20 +207,8 @@ public class MyGdxGame extends ApplicationAdapter {
     }
 
     void createCombatStage() {
-        Skin skin = new Skin();
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("SKIN//uiskin.atlas"));
-        skin.addRegions(atlas);
-        skin.load(Gdx.files.internal("SKIN\\uiskin.json"));
-
-        combatViewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        combatViewport = new FitViewport(getForcedWidth(), getForcedHeight());
         combatStage = new Stage(combatViewport);
-
-        Pixmap pixmap = new Pixmap(64, 64, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.LIGHT_GRAY);
-        pixmap.drawRectangle(0, 0, 64, 64);
-        TextureRegionDrawable borderTexture = new TextureRegionDrawable(new Texture(pixmap));
-        pixmap.dispose();
-
 
         Label ratAppearLabel = new Label(combat.getDisplay(), skin);
         Label hp = new Label("" + hero.getCurrentHitPoints() + " / " + hero.getHitPoints(), skin);
@@ -254,7 +257,7 @@ public class MyGdxGame extends ApplicationAdapter {
                 table.add(new Label(s.getName() + "(" + s.getCount() + ")", skin));
             }
         }
-
+        TextureRegionDrawable borderTexture = new TextureRegionDrawable(new Texture(pixmap));
         Table table2 = new Table();
         table2.setBackground(borderTexture);
         table2.top().left();
@@ -269,22 +272,10 @@ public class MyGdxGame extends ApplicationAdapter {
     }
 
     public void createInventoryStage() {
-        Skin skin = new Skin();
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("SKIN//uiskin.atlas"));
-        skin.addRegions(atlas);
-        skin.load(Gdx.files.internal("SKIN\\uiskin.json"));
-        Label nameLabel = new Label("INVENTORY", skin);
-        Label emptyLine = new Label("", skin);
-
-
-        dialogViewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        dialogViewport = new FitViewport(getForcedWidth(), getForcedHeight());
         inventoryStage = new Stage(dialogViewport);
 
-        Pixmap pixmap = new Pixmap(64, 64, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.LIGHT_GRAY);
-        pixmap.drawRectangle(0, 0, 64, 64);
         TextureRegionDrawable borderTexture = new TextureRegionDrawable(new Texture(pixmap));
-        pixmap.dispose();
 
         Table table = new Table();
         table.top().left().pad(128).padTop(256);
@@ -380,6 +371,10 @@ public class MyGdxGame extends ApplicationAdapter {
             inventoryStage.act(Gdx.graphics.getDeltaTime());
             inventoryStage.draw();
         }
+        if (currentStageType == CurrentSceneType.SplashScreen) {
+            splashScreenStage.act(Gdx.graphics.getDeltaTime());
+            splashScreenStage.draw();
+        }
     }
 
     @Override
@@ -390,13 +385,13 @@ public class MyGdxGame extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         if (currentStageType == CurrentSceneType.TiledMap) {
-            screenForMap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            screenForMap(getForcedWidth(), getForcedHeight());
         } else if (currentStageType == CurrentSceneType.Dialog) {
             dialogStage.getViewport().update(width, height, true);
         }
     }
 
-    private void screenForMap(int width, float height) {
+    private void screenForMap(float width, float height) {
         renderRatio = (float) (width) / (float) height;
         renderer = new OrthogonalTiledMapRenderer(currentMap, unitScale);
         camera = new OrthographicCamera();
@@ -415,7 +410,7 @@ public class MyGdxGame extends ApplicationAdapter {
                 playerCoord.x = eventDetails.getCoordinates().x;
                 playerCoord.y = eventDetails.getCoordinates().y;
 
-                screenForMap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+                screenForMap(getForcedWidth(), getForcedHeight());
             }
 
             if (eventDetails.getEventType() == EventType.dialog) {
