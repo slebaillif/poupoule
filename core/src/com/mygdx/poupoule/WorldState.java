@@ -36,4 +36,8 @@ public class WorldState {
             completedQuests.put(name, active);
         }
     }
+
+    public Map<String, QuestData> getActiveQuests() {
+        return activeQuests;
+    }
 }

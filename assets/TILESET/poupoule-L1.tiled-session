@@ -3,13 +3,13 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "village.tmx",
+    "activeFile": "shop.tmx",
     "expandedProjectPaths": [
         "."
     ],
     "fileStates": {
         "Modern_Int_A2.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 2,
             "scaleInEditor": 1
         },
         "Modern_Outside_A4.tsx": {
@@ -37,11 +37,11 @@
             }
         },
         "shop.tmx": {
-            "scale": 2.5590625,
-            "selectedLayer": 0,
+            "scale": 2.462083333333333,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 160.21492245695447,
-                "y": 160.01953840517768
+                "x": 120.22338805212388,
+                "y": 120.22338805212391
             }
         },
         "untitled.tmx": {
@@ -70,14 +70,15 @@
     "openFiles": [
         "village.tmx",
         "healer.tmx",
-        "untitled.tmx"
+        "shop.tmx"
     ],
     "project": "poupoule-L1.tiled-project",
     "property.type": "string",
     "recentFiles": [
-        "untitled.tmx",
-        "healer.tmx",
         "village.tmx",
+        "healer.tmx",
+        "shop.tmx",
+        "untitled.tmx",
         "PixelPackTOPDOWN8BIT.tsx",
         "guild.tmx",
         "Modern_Int_A2.tsx",
