@@ -35,66 +35,68 @@ public class CombatStage {
 
     public Stage createCombatStage() {
         Stage combatStage = new Stage(new FitViewport(width, height));
+        TextureRegionDrawable borderTexture = new TextureRegionDrawable(new Texture(pixmap));
 
         Label ratAppearLabel = new Label(combat.getDisplay(), skin);
-        Label hp = new Label("" + game.hero.getCurrentHitPoints() + " / " + game.hero.getHitPoints(), skin);
+        Label heroHp = new Label("" + game.hero.getCurrentHitPoints() + " / " + game.hero.getHitPoints(), skin);
         Label emptyLine = new Label("", skin);
 
         Table table = new Table();
-        table.top().left().pad(64);
-        Image p = new Image(heroSprite);
-        p.scaleBy(5);
+        table.setBackground(borderTexture);
+        table.top().left().pad(32);
+        Image heroSprite = new Image(this.heroSprite);
+//        heroSprite.scaleBy(5);
 
-
-        table.row();
-        table.add(p).maxWidth(350).maxHeight(100).left().bottom().expandX().expandY();
+        table.row().top().minHeight(100);
+        table.add(heroSprite).maxWidth(350).minWidth(100).maxHeight(100).left().bottom().expandX();
 
         if (combat.getMonsters().get(0).isAlive()) {
-            table.add(combat.getMonsters().get(0).getMonsterImage()).maxWidth(350).maxHeight(100).right().bottom().expandX().expandY();
+            table.add(combat.getMonsters().get(0).getMonsterImage()).maxWidth(350).maxHeight(100).right().bottom().expandX();
         }
-        table.row();
-        table.add(hp).left();
+        table.row().top();
+        table.add(heroHp).left();
         if (combat.getMonsters().get(0).isAlive()) {
             table.add(new Label(combat.getMonsters().get(0).getName() + " = " + combat.getMonsters().get(0).getCurrentHitPoints() + " / " + combat.getMonsters().get(0).getHitPoints(), skin)).right();
         }
-        table.row();
         for (int i = 1; i < combat.getMonsters().size(); i++) {
             if (combat.getMonsters().get(i).isAlive()) {
+                table.row().top().minHeight(100);
                 table.add(emptyLine);
-                table.add(combat.getMonsters().get(i).getMonsterImage()).maxWidth(400).maxHeight(100).right().bottom();
+                table.add(combat.getMonsters().get(i).getMonsterImage()).maxWidth(350).maxHeight(100).right().bottom().expandX();
                 table.row();
                 table.add(emptyLine);
                 table.add(new Label(combat.getMonsters().get(1).getName() + " = " + combat.getMonsters().get(i).getCurrentHitPoints() + " / " + combat.getMonsters().get(i).getHitPoints(), skin)).right();
             }
         }
 
-        table.row().height(100);
-        for (int i = 1; i <= combat.getPossibleActions().size(); i++) {
-            table.row().height(100);
-            table.add(new Label("" + i + " - " + combat.getPossibleActions().get(i - 1).getName(), skin)).left();
+        // ACTIONS - 5 actions max for now
+        for (int i = 1; i <= 5; i++) {
+            table.row().height(50).top();
+            if (i <= combat.getPossibleActions().size()) {
+                table.add(new Label("" + i + " - " + combat.getPossibleActions().get(i - 1).getName(), skin)).left();
+            } else {
+                table.add(emptyLine).left();
+            }
         }
-        table.row().height(200);
+        // COMBAT mesaages
+        table.row().height(150).top();
         table.add(ratAppearLabel).center().colspan(2);
+
+        // LOOT
         if (combat.allMonstersDefeated()) {
-            table.row();
+            table.row().top();
             table.add(new Label("LOOT", skin)).center().colspan(2);
             for (Stackable s : combat.getLoot()) {
                 table.row();
                 table.add(new Label(s.getName() + "(" + s.getCount() + ")", skin));
             }
         }
-        TextureRegionDrawable borderTexture = new TextureRegionDrawable(new Texture(pixmap));
-        Table table2 = new Table();
-        table2.setBackground(borderTexture);
-        table2.top().left();
-        table2.row();
-        table2.add(emptyLine).width(800).height(200);
+
 
         table.setFillParent(true);
-        table2.setFillParent(true);
         combatStage.addActor(table);
-        combatStage.addActor(table2);
         Gdx.input.setInputProcessor(combat);
+        table.setDebug(true);
         return combatStage;
     }
 }
