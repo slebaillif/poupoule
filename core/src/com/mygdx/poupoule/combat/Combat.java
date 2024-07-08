@@ -22,6 +22,7 @@ public class Combat implements InputProcessor {
     boolean actionMode = true; // false means select target
     PlayerAction slectedAction = null;
     MainCharacter hero;
+    List<String> combatMessages = new ArrayList<>();
 
     public Combat(String combatPath) {
         try {
@@ -29,6 +30,7 @@ public class Combat implements InputProcessor {
             InputStream stream = Combat.class.getClassLoader().getResourceAsStream(combatPath);
             CombatData d = xmlMapper.readValue(stream, CombatData.class);
             this.combatData = d;
+            combatMessages.add(this.combatData.display);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -114,19 +116,19 @@ public class Combat implements InputProcessor {
             }
             // select target, resolve action
             Monster target = aliveMonsters.get(selected);
-            combatData.display = this.slectedAction.getEffect().execute(target);
+            combatMessages.add( this.slectedAction.getEffect().execute(target));
 
             for (Monster m : aliveMonsters) {
                 hero.isHit(m.attack);
-                combatData.display = m.getName() + " " + m.getAttackName() + " for " + m.attack + " damage.";
+                combatMessages.add( m.getName() + " " + m.getAttackName() + " for " + m.attack + " damage.");
             }
             actionMode = true;
         }
         return true;
     }
 
-    public String getDisplay() {
-        return combatData.display;
+    public List<String> getDisplay() {
+        return combatMessages;
     }
 
 

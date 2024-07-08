@@ -14,6 +14,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.poupoule.MyGdxGame;
 import com.mygdx.poupoule.inventory.Stackable;
 
+import java.util.List;
+
 public class CombatStage {
     MyGdxGame game;
     Combat combat;
@@ -37,7 +39,6 @@ public class CombatStage {
         Stage combatStage = new Stage(new FitViewport(width, height));
         TextureRegionDrawable borderTexture = new TextureRegionDrawable(new Texture(pixmap));
 
-        Label ratAppearLabel = new Label(combat.getDisplay(), skin);
         Label heroHp = new Label("" + game.hero.getCurrentHitPoints() + " / " + game.hero.getHitPoints(), skin);
         Label emptyLine = new Label("", skin);
 
@@ -45,7 +46,6 @@ public class CombatStage {
         table.setBackground(borderTexture);
         table.top().left().pad(32);
         Image heroSprite = new Image(this.heroSprite);
-//        heroSprite.scaleBy(5);
 
         table.row().top().minHeight(100);
         table.add(heroSprite).maxWidth(350).minWidth(100).maxHeight(100).left().bottom().expandX();
@@ -78,9 +78,18 @@ public class CombatStage {
                 table.add(emptyLine).left();
             }
         }
-        // COMBAT mesaages
-        table.row().height(150).top();
-        table.add(ratAppearLabel).center().colspan(2);
+        if (!combat.allMonstersDefeated()) {
+            // COMBAT messages display last 3
+            List<String> tail = combat.getDisplay().subList(Math.max(combat.getDisplay().size() - 3, 0), combat.getDisplay().size());
+            for (int i = 1; i <= 3; i++) {
+                table.row().height(50).top();
+                if (i <= tail.size()) {
+                    table.add(new Label(tail.get(i - 1), skin)).center().colspan(2);
+                } else {
+                    table.add(emptyLine).center().colspan(2);
+                }
+            }
+        }
 
         // LOOT
         if (combat.allMonstersDefeated()) {
