@@ -4,11 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.poupoule.MyGdxGame;
@@ -78,34 +76,46 @@ public class CombatStage {
                 table.add(emptyLine).left();
             }
         }
-        if (!combat.allMonstersDefeated()) {
-            // COMBAT messages display last 3
-            List<String> tail = combat.getDisplay().subList(Math.max(combat.getDisplay().size() - 3, 0), combat.getDisplay().size());
-            for (int i = 1; i <= 3; i++) {
-                table.row().height(50).top();
-                if (i <= tail.size()) {
-                    table.add(new Label(tail.get(i - 1), skin)).center().colspan(2);
-                } else {
-                    table.add(emptyLine).center().colspan(2);
-                }
-            }
-        }
 
-        // LOOT
-        if (combat.allMonstersDefeated()) {
-            table.row().top();
-            table.add(new Label("LOOT", skin)).center().colspan(2);
-            for (Stackable s : combat.getLoot()) {
-                table.row();
-                table.add(new Label(s.getName() + "(" + s.getCount() + ")", skin));
-            }
-        }
+        final OpenScrollPane scrollPane = new OpenScrollPane(null, skin);
+        scrollPane.setFadeScrollBars(false);
+        scrollPane.setFlickScroll(false);
+        scrollPane.setScrollingDisabled(true, false);
+        String lines = String.join("\n", combat.getDisplay());
+        final TextArea textArea = new TextArea(lines, skin);
 
+        textArea.setDisabled(true);
+        scrollPane.setWidget(textArea);
+        table.row().height(100).width(300).top();
+        table.add(scrollPane).right().colspan(2).width(580).height(170);
 
         table.setFillParent(true);
         combatStage.addActor(table);
         Gdx.input.setInputProcessor(combat);
         table.setDebug(true);
         return combatStage;
+    }
+
+    public class OpenScrollPane extends ScrollPane {
+
+        private boolean scrollToBottom;
+
+        public OpenScrollPane(Actor widget, Skin skin) {
+            super(widget, skin);
+        }
+
+        public void scheduleScrollToBottom() {
+            scrollToBottom = true;
+        }
+
+        @Override
+        public void layout() {
+            super.layout();
+            if (scrollToBottom) {
+                scrollTo(0,0,0,0);
+
+            }
+        }
+
     }
 }

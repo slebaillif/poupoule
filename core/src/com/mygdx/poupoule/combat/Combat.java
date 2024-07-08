@@ -1,6 +1,7 @@
 package com.mygdx.poupoule.combat;
 
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.mygdx.poupoule.CurrentSceneType;
 import com.mygdx.poupoule.MyGdxGame;
@@ -30,7 +31,7 @@ public class Combat implements InputProcessor {
             InputStream stream = Combat.class.getClassLoader().getResourceAsStream(combatPath);
             CombatData d = xmlMapper.readValue(stream, CombatData.class);
             this.combatData = d;
-            combatMessages.add(this.combatData.display);
+            combatMessages.add(0, this.combatData.display);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -110,17 +111,29 @@ public class Combat implements InputProcessor {
             }
 
         } else {
+            combatMessages.add(0,"---------");
             List<Monster> aliveMonsters = combatData.monsters.stream().filter(m -> m.isAlive() == true).collect(Collectors.toList());
             if (selected >= aliveMonsters.size()) {
                 return false;
             }
             // select target, resolve action
             Monster target = aliveMonsters.get(selected);
-            combatMessages.add( this.slectedAction.getEffect().execute(target));
+            combatMessages.add(0, this.slectedAction.getEffect().execute(target));
+            if (!target.isAlive()){
+                combatMessages.add(0, target.name+" dies.");
+            }
 
             for (Monster m : aliveMonsters) {
                 hero.isHit(m.attack);
-                combatMessages.add( m.getName() + " " + m.getAttackName() + " for " + m.attack + " damage.");
+                combatMessages.add(0, m.getName() + " " + m.getAttackName() + " for " + m.attack + " damage.");
+            }
+
+            if( allMonstersDefeated()){
+                combatMessages.add(0,"---------");
+                for (Stackable s : getLoot()) {
+                    combatMessages.add(0,s.getName() + "(" + s.getCount() + ")");
+                }
+                combatMessages.add(0,"LOOT");
             }
             actionMode = true;
         }
