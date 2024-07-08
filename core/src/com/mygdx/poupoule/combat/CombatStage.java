@@ -50,11 +50,16 @@ public class CombatStage {
 
         if (combat.getMonsters().get(0).isAlive()) {
             table.add(combat.getMonsters().get(0).getMonsterImage()).maxWidth(350).maxHeight(100).right().bottom().expandX();
+        }else{
+            table.add(emptyLine).maxWidth(350).maxHeight(100).right().bottom().expandX();
+
         }
         table.row().top();
         table.add(heroHp).left();
         if (combat.getMonsters().get(0).isAlive()) {
             table.add(new Label(combat.getMonsters().get(0).getName() + " = " + combat.getMonsters().get(0).getCurrentHitPoints() + " / " + combat.getMonsters().get(0).getHitPoints(), skin)).right();
+        }else{
+            table.add(emptyLine).right();
         }
         for (int i = 1; i < combat.getMonsters().size(); i++) {
             if (combat.getMonsters().get(i).isAlive()) {
@@ -64,6 +69,12 @@ public class CombatStage {
                 table.row();
                 table.add(emptyLine);
                 table.add(new Label(combat.getMonsters().get(1).getName() + " = " + combat.getMonsters().get(i).getCurrentHitPoints() + " / " + combat.getMonsters().get(i).getHitPoints(), skin)).right();
+            }else{
+                table.row().top().minHeight(100);
+                table.add(emptyLine);
+                table.add(emptyLine).maxWidth(350).maxHeight(100).right().bottom().expandX();
+                table.row();
+                table.add(emptyLine).right();
             }
         }
 
@@ -87,7 +98,7 @@ public class CombatStage {
         textArea.setDisabled(true);
         scrollPane.setWidget(textArea);
         table.row().height(100).width(300).top();
-        table.add(scrollPane).right().colspan(2).width(580).height(170);
+        table.add(scrollPane).bottom().right().colspan(2).width(580).height(170);
 
         table.setFillParent(true);
         combatStage.addActor(table);
