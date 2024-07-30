@@ -47,10 +47,10 @@ public class Inventory {
         return questThings.values();
     }
 
-    public boolean canAfford(Stackable s) {
-        Stackable t = questThings.get(s.getName());
+    public boolean canAfford(Stackable cost) {
+        Stackable t = questThings.get(cost.getName());
         if (t != null) {
-            return t.count >= t.getCount();
+            return t.count >= cost.getCount();
         } else {
             return false;
         }
